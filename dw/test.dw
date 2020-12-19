@@ -1,0 +1,30 @@
+%dw 2.0
+
+/**
+ * Comment here ...
+ * Written by Austin Lehman.
+ * Gnu General Public License v3
+ * @p first is a string with the first name.
+ * @p last is a string with the last name.
+ * @r A person object.
+ */
+fun testFun(one:String, two:String, test) = {
+   var: "value"
+}
+
+/**
+ * This is the first name of
+ * the developer.
+ */
+var name = "austin"
+
+/**
+ * Here's my second comment.
+ */
+fun testFunTwo() = { and: "yes" }
+
+/**
+ * This is the last name of
+ * the developer.
+ */
+var last = "lehman"
