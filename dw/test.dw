@@ -1,3 +1,9 @@
+/**
+ * Here's my test module.
+ * Written by Austin Lehman
+ * License GNU General Public License v3
+ */
+
 %dw 2.0
 
 /**

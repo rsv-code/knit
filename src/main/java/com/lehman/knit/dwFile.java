@@ -8,6 +8,10 @@ public class dwFile {
     public String fileName = "";
     public String fileNameAndPath = "";
     public ArrayList<String> modulePath = new ArrayList<String>();
+
+    private String commentString = "";
+    private dwComment comment = new dwComment();
+
     public ArrayList<dwFunction> functions = new ArrayList<dwFunction>();
     public ArrayList<dwVariable> variables = new ArrayList<dwVariable>();
 
@@ -43,6 +47,22 @@ public class dwFile {
 
     public void setModulePath(ArrayList<String> modulePath) {
         this.modulePath = modulePath;
+    }
+
+    public String getCommentString() {
+        return commentString;
+    }
+
+    public void setCommentString(String commentString) {
+        this.commentString = commentString;
+    }
+
+    public dwComment getComment() {
+        return comment;
+    }
+
+    public void setComment(dwComment comment) {
+        this.comment = comment;
     }
 
     public ArrayList<dwFunction> getFunctions() {

@@ -11,9 +11,22 @@ public class knitParser {
     public dwFile parseFile(String fileName) throws IOException {
         dwFile ret = new dwFile(fileName);
         String fileStr = util.read(fileName);
+        this.parseModuleComment(fileStr, ret);
         ret.setVariables(this.parseVariables(fileStr));
         ret.setFunctions(this.parseFunctions(fileStr));
         return ret;
+    }
+
+    private void parseModuleComment(String text, dwFile ret) {
+        // Get the module section.
+        String funPatternStr = "(\\/\\*\\*([^\\/]+?)\\*\\/\\s*%dw)";
+        Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
+        Matcher m = r.matcher(text);
+        if (m.find()) {
+            String commentStr = m.group(2).toString();
+            ret.setCommentString(this.parseCommentString(commentStr).trim());
+            ret.setComment(this.parseComment(ret.getCommentString()));
+        }
     }
 
     private ArrayList<dwFunction> parseFunctions(String text) {
