@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Austin Lehman (austin@rosevillecode.com)
+ * Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ import java.util.regex.Pattern;
 public class knitParser {
     public knitParser() {}
 
-    public dwFile parseFile(String fileName) throws IOException {
-        dwFile ret = new dwFile(fileName);
+    public dwFile parseFile(String rootDirName, String fileName) throws IOException {
+        dwFile ret = new dwFile(fileName.replaceFirst(rootDirName, ""));
         String fileStr = util.read(fileName);
         this.parseModuleComment(fileStr, ret);
         ret.setVariables(this.parseVariables(fileStr));
@@ -36,7 +36,7 @@ public class knitParser {
 
     private void parseModuleComment(String text, dwFile ret) {
         // Get the module section.
-        String funPatternStr = "(\\/\\*\\*([^\\/]+?)\\*\\/\\s*%dw)";
+        String funPatternStr = "(\\/\\*\\*(.+?)\\*\\/\\s*%dw)";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(text);
         if (m.find()) {
@@ -82,7 +82,7 @@ public class knitParser {
         String ret = "";
 
         for (String line : str.toString().split("\n")) {
-            ret += line.replaceFirst("^\\s\\*\\s", "") + "\n";
+            ret += line.replaceFirst("^\\s\\*\\s?", "") + "\n";
         }
 
         return ret;

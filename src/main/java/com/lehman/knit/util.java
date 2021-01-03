@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Austin Lehman (austin@rosevillecode.com)
+ * Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,9 @@
 
 package com.lehman.knit;
 
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,9 @@ public class util {
     public static ArrayList<String> fromArray(String[] arr) {
         ArrayList<String> ret = new ArrayList<String>();
         for (String str : arr) {
-            ret.add(str);
+        	if (!str.trim().equals("")) {
+				ret.add(str);
+			}
         }
         return ret;
     }
@@ -64,6 +68,29 @@ public class util {
 		} finally {
 			if(fr != null) {
 		        try { fr.close(); }
+		        catch (IOException e) { throw e; }
+			}
+	    }
+	}
+
+	/**
+	 * Writes the provided String to file. If append is set to true, it will append
+	 * the text to file, otherwise it will replace it if the file already exists.
+	 * @param FileName is a String with the file name to save.
+	 * @param Data is a String with the text data to write.
+	 * @param Append is a boolean with true for append and false for not.
+	 * @throws IOException on IO exception.
+	 */
+	public static void write(String FileName, String Data, boolean Append) throws IOException {
+		BufferedWriter bw = null;
+		try {
+			bw = new BufferedWriter(new FileWriter(FileName, Append));
+			bw.write(Data);
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if(bw != null) {
+		        try { bw.close(); }
 		        catch (IOException e) { throw e; }
 			}
 	    }

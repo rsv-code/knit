@@ -1,7 +1,5 @@
-/**
- * My test module.
- *
- * Copyright 2020 Austin Lehman (austin@rosevillecode.com)
+/*
+ * Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-%dw 2.0
+package com.lehman.knit;
 
-/**
- * Comment here ...
- * Written by Austin Lehman.
- * Gnu General Public License v3
- * @p first is a string with the first name.
- * @p last is a string with the last name.
- * @r A person object.
- */
-fun testFun(one:String, two:String, test) = {
-   var: "value"
+import java.util.List;
+
+public interface dwDocWriter {
+    public String writeDoc(dwFile file);
+    public String writeDoc(List<dwFile> files);
 }
-
-/**
- * This is the first name of
- * the developer.
- */
-var name = "austin"
-
-/**
- * Here's my second comment.
- */
-fun testFunTwo() = { and: "yes" }
-
-/**
- * This is the last name of
- * the developer.
- */
-var last = "lehman"

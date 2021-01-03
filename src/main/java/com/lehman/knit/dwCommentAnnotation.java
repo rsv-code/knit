@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Austin Lehman (austin@rosevillecode.com)
+ * Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

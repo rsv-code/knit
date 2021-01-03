@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Austin Lehman (austin@rosevillecode.com)
+ * Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class dwFile {
+    public String name = "";
     public String fileName = "";
     public String fileNameAndPath = "";
     public ArrayList<String> modulePath = new ArrayList<String>();
@@ -36,9 +37,17 @@ public class dwFile {
     public dwFile(String FileNameAndPath) {
         this.fileNameAndPath = FileNameAndPath;
         this.fileName = (new File(FileNameAndPath)).getName();
-        String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - 3);
-        System.out.println(pathStr);
+        this.name = fileName.substring(0, fileName.length()-4);
+        String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - 4);
         this.modulePath = util.fromArray(pathStr.split(File.separator));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFileName() {
