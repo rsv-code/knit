@@ -1,3 +1,5 @@
+![Knit Logo](knit.png)
+
 # Knit - Dataweave Document Generator
 
 Written by Austin Lehman
