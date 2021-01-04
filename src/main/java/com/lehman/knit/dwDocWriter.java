@@ -19,7 +19,21 @@ package com.lehman.knit;
 
 import java.util.List;
 
+/**
+ * The interface that models the Knit document writer.
+ */
 public interface dwDocWriter {
+    /**
+     * Writes a doc with the provided dwFile object.
+     * @param file is a dwFile object to write.
+     * @return A String with the document text.
+     */
     public String writeDoc(dwFile file);
+
+    /**
+     * Writes a doc with the provided dwFile list.
+     * @param files is a List of dwFile objects to write.
+     * @return A String with the document text.
+     */
     public String writeDoc(List<dwFile> files);
 }

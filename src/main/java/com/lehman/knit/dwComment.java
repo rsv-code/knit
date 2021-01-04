@@ -19,22 +19,48 @@ package com.lehman.knit;
 
 import java.util.ArrayList;
 
+/**
+ * Class models a comment.
+ */
 public class dwComment {
+    /**
+     * The text of the comment.
+     */
     private String text = "";
+
+    /**
+     * A list of dwCommentAnnotation objects that are the annotations.
+     */
     private ArrayList<dwCommentAnnotation> annotations = new ArrayList<dwCommentAnnotation>();
 
+    /**
+     * Gets the comment text.
+     * @return A String with the comment text.
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Sets the comment text.
+     * @param text is a String with the comment text.
+     */
     public void setText(String text) {
         this.text = text;
     }
 
+    /**
+     * Gets a list of the annotations for the comment.
+     * @return An ArrayList of dwCommentAnnotation objects with the annotations.
+     */
     public ArrayList<dwCommentAnnotation> getAnnotations() {
         return annotations;
     }
 
+    /**
+     * Sets the annotations.
+     * @param annotations is an ArrayList of dwCommentAnnotation objects to set.
+     */
     public void setAnnotations(ArrayList<dwCommentAnnotation> annotations) {
         this.annotations = annotations;
     }

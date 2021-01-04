@@ -17,31 +17,58 @@
 
 package com.lehman.knit;
 
+/**
+ * Class models a comment annotation.
+ */
 public class dwCommentAnnotation {
     private String name = "";
     private String key = "";
     private String value = "";
 
+    /**
+     * Gets the annotation name.
+     * @return A String with the annotation name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the annotation name.
+     * @param name is a String with the annotation name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the annotation key.
+     * @return A String with the annotation key.
+     */
     public String getKey() {
         return key;
     }
 
+    /**
+     * Sets the annotation key.
+     * @param key is a String with the annotation key.
+     */
     public void setKey(String key) {
         this.key = key;
     }
 
+    /**
+     * Gets the annotation value.
+     * @return A String with the annotation value.
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Sets the annotation value.
+     * @param value is a String with the annotation value.
+     */
     public void setValue(String value) {
         this.value = value;
     }

@@ -17,29 +17,69 @@
 
 package com.lehman.knit;
 
+/**
+ * Class models a function argument.
+ */
 public class dwArgument {
+    /**
+     * The argument name.
+     */
     private String name = "";
+
+    /**
+     * The argument datatype if specified.
+     */
     private String datatype = "";
 
+    /**
+     * Default constructor.
+     */
     public dwArgument() { }
+
+    /**
+     * Constructor with name arg.
+     * @param Name is a String with the argument name.
+     */
     public dwArgument(String Name) { this.name = Name; }
+
+    /**
+     * Constructor with name and datatype.
+     * @param Name is a String with the argument name.
+     * @param Datatype is a String with the datatype.
+     */
     public dwArgument(String Name, String Datatype) {
         this.name = Name;
         this.datatype = Datatype;
     }
 
+    /**
+     * Gets the argument name.
+     * @return A String with the argument name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the argument name.
+     * @param name is a String with the argument name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the datatype.
+     * @return A String with the datatype.
+     */
     public String getDatatype() {
         return datatype;
     }
 
+    /**
+     * Sets the datatype.
+     * @param datatype is a String with the datatype.
+     */
     public void setDatatype(String datatype) {
         this.datatype = datatype;
     }

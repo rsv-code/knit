@@ -17,6 +17,9 @@
 
 package com.lehman.knit;
 
+/**
+ * Class models a dataweave variable.
+ */
 public class dwVariable {
     private String commentString = "";
     private dwComment comment = new dwComment();

@@ -19,40 +19,90 @@ package com.lehman.knit;
 
 import java.util.ArrayList;
 
+/**
+ * Class models a dataweave function.
+ */
 public class dwFunction {
+    /**
+     * The comment string.
+     */
     private String commentString = "";
+
+    /**
+     * The comment object.
+     */
     private dwComment comment = new dwComment();
+
+    /**
+     * The function name.
+     */
     private String name = "";
+
+    /**
+     * The argument list.
+     */
     private ArrayList<dwArgument> arguments = new ArrayList<dwArgument>();
 
+    /**
+     * Gets the comment string of the function.
+     * @return A String with the comment of the function.
+     */
     public String getCommentString() {
         return commentString;
     }
 
+    /**
+     * Sets the comment string of the function.
+     * @param commentString is a String to set as the comment of the function.
+     */
     public void setCommentString(String commentString) {
         this.commentString = commentString;
     }
 
+    /**
+     * Gets the comment object of the function.
+     * @return A dwComment object with the function comment.
+     */
     public dwComment getComment() {
         return comment;
     }
 
+    /**
+     * Sets the comment object of the function.
+     * @param comment is a dwComment object to set for the function.
+     */
     public void setComment(dwComment comment) {
         this.comment = comment;
     }
 
+    /**
+     * Gets the function name.
+     * @return A String with the function name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the function.
+     * @param name is a String with the function name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the argument list.
+     * @return An ArrayList of dwArgument objects with the argument list.
+     */
     public ArrayList<dwArgument> getArguments() {
         return arguments;
     }
 
+    /**
+     * Sets the argument list.
+     * @param arguments is an ArrayList of dwArguments to set as the argument list.
+     */
     public void setArguments(ArrayList<dwArgument> arguments) {
         this.arguments = arguments;
     }
