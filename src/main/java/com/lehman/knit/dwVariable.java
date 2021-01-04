@@ -25,26 +25,50 @@ public class dwVariable {
     private dwComment comment = new dwComment();
     private String name = "";
 
+    /**
+     * Gets the comment string of the variable.
+     * @return A String with the comment of the variable.
+     */
     public String getCommentString() {
         return commentString;
     }
 
+    /**
+     * Sets the comment string of the variable.
+     * @param commentString is a String to set as the comment of the variable.
+     */
     public void setCommentString(String commentString) {
         this.commentString = commentString;
     }
 
+    /**
+     * Gets the comment object of the variable.
+     * @return A dwComment object of the variable.
+     */
     public dwComment getComment() {
         return comment;
     }
 
+    /**
+     * Sets the comment object of the variable.
+     * @param comment is a dwComment object to set for the variable.
+     */
     public void setComment(dwComment comment) {
         this.comment = comment;
     }
 
+    /**
+     * Gets the variable name.
+     * @return A String with the variable name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the variable name.
+     * @param name is a String with the variable name.
+     */
     public void setName(String name) {
         this.name = name;
     }
