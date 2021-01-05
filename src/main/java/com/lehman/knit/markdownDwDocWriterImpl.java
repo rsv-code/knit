@@ -19,7 +19,17 @@ package com.lehman.knit;
 
 import java.util.List;
 
+/**
+ * Markdown implementation of the dwDocWriter interface. This class
+ * provides support for writing docs in Markdown format.
+ */
 public class markdownDwDocWriterImpl implements dwDocWriter {
+    /**
+     * Writes a Markdown formatted document with the provided dwFile object and
+     * returns a String with the result.
+     * @param file is a dwFile object to write.
+     * @return A String with the doc contents.
+     */
     @Override
     public String writeDoc(dwFile file) {
         String ret = "# " + file.name + "\n";
@@ -44,6 +54,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
+    /**
+     * Writes a Markdown formatted document with the provided list of dwFile objects and
+     * returns a String with the result.
+     * @param files is a List of dwFile objects to write.
+     * @return A String with the doc contents.
+     */
     @Override
     public String writeDoc(List<dwFile> files) {
         String ret = "";
@@ -54,6 +70,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
+    /**
+     * Writes the variables section with the provided dwFile
+     * object.
+     * @param file is the dwObject file to write variables for.
+     * @return A String with the variables section.
+     */
     private String writeVariables(dwFile file) {
         String ret = "";
 
@@ -65,6 +87,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
+    /**
+     * Writes teh functions section with the provided dwFile
+     * object.
+     * @param file is the dwObject file to write functions for.
+     * @return A String with the functions section.
+     */
     private String writeFunctions(dwFile file) {
         String ret = "";
 
@@ -77,6 +105,11 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
+    /**
+     * Writes the function args with the provided dwFunction object.
+     * @param fun is a dwFunction object to write the args for.
+     * @return A String with the function args.
+     */
     private String writeFunctArgs(dwFunction fun) {
         String ret = "";
 
@@ -95,6 +128,11 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
+    /**
+     * Writes the function annotations with the provided dwFunction object.
+     * @param fun is a dwFunction object to write annotations for.
+     * @return A String with the annotations section.
+     */
     private String writeFunctAnnotations(dwFunction fun) {
         String ret = "";
 

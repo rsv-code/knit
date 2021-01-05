@@ -27,31 +27,74 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * The main entry point class implements the normal main
+ * function as well as the Mojo execute function for
+ * maven plugin support.
+ */
 @Mojo(name = "knit", defaultPhase = LifecyclePhase.COMPILE)
 public class Main extends AbstractMojo {
+    /**
+     * This isn't used but there in case it's needed later. It provides
+     * the maven project information to the execute() function.
+     */
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
+    /**
+     * Maven config value generate.
+     * Flag to run the doc parser/generator. This is the on/off switch for the maven plugin..
+     */
     @Parameter(property = "generate")
     boolean generate = true;
 
+    /**
+     * Maven config value files.
+     * A list of DW files to parse.
+     */
     @Parameter(property = "files")
     String[] files;
 
+    /**
+     * Maven config value directories.
+     * A list of DW directories to parse.
+     */
     @Parameter(property = "directories")
     String[] directories = new String[]{ "src/main/resources/dw" };
 
+    /**
+     * Maven config value singleOutputFile.
+     * Flag to switch between files for each module and a single output file.
+     */
     @Parameter(property = "singleOutputFile")
     boolean singleOutputFile = true;
 
+    /**
+     * Maven config value outputFile.
+     * The output file to write to when singleOutputFile == true.
+     */
     @Parameter(property = "outputFile")
     String outputFile = "target/knit-doc.md";
 
+    /**
+     * Accessor to set the directories. So as to not overwrite the initial value, this checks
+     * to see if the provided list is > 0 before replacing.
+     * @param Directories is an array of strings with the list of directories to parse.
+     */
     public void setDirectories(String[] Directories) { if (Directories.length > 0) { this.directories = Directories; } }
+
+    /**
+     * Accessor to set the files.
+     * @param Files is an array of strings with the list of files to parse.
+     */
     public void setFiles(String[] Files) { this.files = Files; }
 
+    /**
+     * Main entry point of the application. This is currently just for testing.
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         //knitParser parser = new knitParser();
         //dwFile f = parser.parseFile("dw/test.dw");
@@ -64,6 +107,13 @@ public class Main extends AbstractMojo {
         System.out.println(doc);
     }
 
+    /**
+     * Parses a DW directory with the provided arguments.
+     * @param rootDirName is a String with the root directory to parse.
+     * @param dirName is a String with the directory name.
+     * @param parsedFiles is an ArrayList of dwFile objects to store the parsed results.
+     * @throws Exception
+     */
     public static void parseDirectory(String rootDirName, String dirName, ArrayList<dwFile> parsedFiles) throws Exception {
         knitParser parser = new knitParser();
         File dir = new File(dirName);
@@ -82,6 +132,11 @@ public class Main extends AbstractMojo {
         }
     }
 
+    /**
+     * The entry point of the maven plugin.
+     * @throws MojoExecutionException
+     * @throws MojoFailureException
+     */
     public void execute() throws MojoExecutionException, MojoFailureException {
         this.printAbout();
         System.out.println("Running Knit doc generator ...");
@@ -129,6 +184,9 @@ public class Main extends AbstractMojo {
         }
     }
 
+    /**
+     * Prints the about text to standard output.
+     */
     private void printAbout() {
         String out = "";
         out += " __  __     __   __     __     ______      _____     ______     ______                            \n" +

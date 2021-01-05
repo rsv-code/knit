@@ -22,9 +22,23 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Knit parser class implements the DW parser functionality.
+ */
 public class knitParser {
+    /**
+     * Default constructor.
+     */
     public knitParser() {}
 
+    /**
+     * Parses a DW file with the provided root directory name and file name
+     * and returns the parsed dwFile object.
+     * @param rootDirName is a String with the root directory of the file to parse.
+     * @param fileName is a String with the file name to parse.
+     * @return A dwParse object.
+     * @throws IOException
+     */
     public dwFile parseFile(String rootDirName, String fileName) throws IOException {
         dwFile ret = new dwFile(fileName.replaceFirst(rootDirName, ""));
         String fileStr = util.read(fileName);
@@ -34,6 +48,12 @@ public class knitParser {
         return ret;
     }
 
+    /**
+     * Parses the module comment with the provided file contents
+     * and sets the comment information in the provided dwFile object.
+     * @param text is a String with the file contents.
+     * @param ret is the return dwFile object to set the comment information in.
+     */
     private void parseModuleComment(String text, dwFile ret) {
         // Get the module section.
         String funPatternStr = "(\\/\\*\\*(.+?)\\*\\/\\s*%dw)";
@@ -46,6 +66,12 @@ public class knitParser {
         }
     }
 
+    /**
+     * Parses the DW functions with the provided file text and returns an
+     * array of dwFunction object with the results.
+     * @param text is a String with the file text.
+     * @return An ArrayList of dwFunction objects with the function list.
+     */
     private ArrayList<dwFunction> parseFunctions(String text) {
         ArrayList<dwFunction> ret = new ArrayList<dwFunction>();
 
@@ -62,6 +88,12 @@ public class knitParser {
         return ret;
     }
 
+    /**
+     * Parses each individual function text and returns a dwFunction
+     * object with the result.
+     * @param functionString is a String with the function text.
+     * @return A dwFunction object with the result.
+     */
     private dwFunction parseFunctionString(String functionString) {
         dwFunction funct = new dwFunction();
 
@@ -78,6 +110,12 @@ public class knitParser {
         return funct;
     }
 
+    /**
+     * Processes the provided comment block line by line replacing any space
+     * and * characters preceding the text.
+     * @param str is a comment block to process.
+     * @return A String with the leading space and * removed.
+     */
     private String parseCommentString(String str) {
         String ret = "";
 
@@ -88,6 +126,11 @@ public class knitParser {
         return ret;
     }
 
+    /**
+     * Parses the actual comment block and returns a dwComment object with the result.
+     * @param str is the comment string to parse.
+     * @return A dwComment object with the result.
+     */
     private dwComment parseComment(String str) {
         dwComment comment = new dwComment();
 
@@ -106,6 +149,11 @@ public class knitParser {
         return comment;
     }
 
+    /**
+     * Parses the provided comment string and returns a list of annotations.
+     * @param str is a comment string to parse.
+     * @return An ArrayList of dwCommentAnnotation objects.
+     */
     private ArrayList<dwCommentAnnotation> parseAnnotations(String str) {
         ArrayList<dwCommentAnnotation> ret = new ArrayList<dwCommentAnnotation>();
         String pstr = "^@(\\w+)\\s(.*?(?=@))";
@@ -125,6 +173,12 @@ public class knitParser {
         return ret;
     }
 
+    /**
+     * Parses the annotation value for param type annotations with the
+     * provided annotation string and dwCommentAnnotation object to update.
+     * @param str is a String with the annotation text.
+     * @param ann is a dwCommentAnnotation object to update.
+     */
     private void parseAnnotationValue(String str, dwCommentAnnotation ann) {
         String pstr = "(\\w+)\\s(.*)";
         Pattern r = Pattern.compile(pstr, Pattern.DOTALL | Pattern.MULTILINE);
@@ -135,6 +189,12 @@ public class knitParser {
         }
     }
 
+    /**
+     * Parses the function arguments and returns a list of dwArgument objects
+     * as the result.
+     * @param str is a String with the arguments to parse.
+     * @return An ArrayList of dwArgument objects with the result.
+     */
     private ArrayList<dwArgument> parseArguments(String str) {
         ArrayList<dwArgument> args = new ArrayList<dwArgument>();
         String parts[] = str.split(",");
@@ -153,6 +213,12 @@ public class knitParser {
         return args;
     }
 
+    /**
+     * Parses the provided file text and returns a list of dwVariable
+     * objects as the result.
+     * @param text is a String with the file text.
+     * @return An ArrayList of dwVariable objects.
+     */
     private ArrayList<dwVariable> parseVariables(String text) {
         ArrayList<dwVariable> variables = new ArrayList<dwVariable>();
 
@@ -169,6 +235,11 @@ public class knitParser {
         return variables;
     }
 
+    /**
+     * Parses the provided variable string and returns a dwVariable object.
+     * @param variableString is a String with the variable text.
+     * @return A dwVariable object with the result.
+     */
     private dwVariable parseVariableString(String variableString) {
         dwVariable var = new dwVariable();
 

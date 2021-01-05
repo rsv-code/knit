@@ -24,7 +24,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides utility functions.
+ */
 public class util {
+
+	/**
+	 * Joins a list of strings provided using the provided delimiter into a single string.
+	 * @param delim is a String with the glue.
+	 * @param arr is an ArrayList of String objects to join.
+	 * @return A String with the joined parts.
+	 */
     public static String join(String delim, List<String> arr) {
         String ret = "";
         for (int i = 0; i < arr.size(); i++) {
@@ -34,7 +44,13 @@ public class util {
         return ret;
     }
 
-    public static ArrayList<String> fromArray(String[] arr) {
+	/**
+	 * Converts an Array of Strings to an ArrayList of Strings. It also strips
+	 * blank strings out as it goes.
+	 * @param arr is an array of Strings.
+	 * @return An ArrayList of Strings.
+	 */
+	public static ArrayList<String> fromArray(String[] arr) {
         ArrayList<String> ret = new ArrayList<String>();
         for (String str : arr) {
         	if (!str.trim().equals("")) {
