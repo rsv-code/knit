@@ -39,6 +39,9 @@ Then you add the plugin to your pom like this.
 Then when you build your project it will generate a knit-doc.md file in the 
 target directory. It's that simple.
 
+# Dependencies
+Knit requires JDK 8 or later. It may work on previous versions but you will 
+need to update the pom.xml in that case. It also requires maven of course.
 
 # Install
 
