@@ -25,7 +25,7 @@ Then you add the plugin to your pom like this.
 <plugin>
     <groupId>com.lehman</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <executions>
         <execution>
             <goals>
@@ -66,7 +66,7 @@ locally installed the plugin.
 <plugin>
     <groupId>com.lehman</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <executions>
         <execution>
             <goals>
@@ -97,6 +97,37 @@ locally installed the plugin.
          <!-- Specify the output file to save to. By default it saves to target/knit-doc.md.
          <outputFile>target/knit-doc.md</outputFile>
          -->
+         
+         <!-- Optional output header text can be specified which is set at the 
+            begining of the generated doc. This allows you to set a heading 
+            section for the doc.
+         -->
+         <!--
+         <outputHeaderText>
+<![CDATA[
+# knit-test
+
+This app is for testing the knit maven plugin.
+
+]]>
+          </outputHeaderText>
+          -->
+          
+          <!-- If set to true a header table will be generated.
+          <writeHeaderTable>true</writeHeaderTable>
+          -->
+          
+          <!-- If writeHeaderTable is set to true then you can provide an 
+            optional list of modules in the order you want them to appear in 
+            the table.
+          -->
+          <!--
+          <headerTableModuleList>
+              <module>main</module>
+              <module>palette</module>
+          </headerTableModuleList>
+          -->
+         
     </configuration>
 </plugin>
 ```
@@ -115,6 +146,16 @@ the default values which should work for most cases.
 - **files** - A list of files parse.
 - **outputFile** - A string with the output file to write to. By deafult this 
   writes to target/knit-doc.md.
+- **outputHeaderText** - Text to be set at the very begining of the generated 
+  doc. This is optional and exists to allow some custom introduction content 
+  to be provided.
+- **writeHeaderTable** - A flag to specify if a header table is to be generated. 
+  If set to true a table with each module name and description will be built 
+  below the outputHeaderText and before the regular documentation. Each module 
+  will link to it's place in the document.
+- **headerTableModuleList** - A list of strings with the module names. This list 
+  allows you to specify the order that modules will be written to the header 
+  table. This only applies if writeHeaderTable is set to true.
 
 
 # Comments

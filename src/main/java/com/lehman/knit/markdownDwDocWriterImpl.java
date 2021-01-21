@@ -17,6 +17,8 @@
 
 package com.lehman.knit;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,6 +68,64 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
 
         for(dwFile f : files) {
             ret += this.writeDoc(f) + "\n";
+        }
+        return ret;
+    }
+
+    /**
+     * Writes a header table with the provided dwFile list. This
+     * table will link to each module further down in the document.
+     * @param files is a List of dwFile objects to write.
+     * @return A String with the header table text.
+     */
+    @Override
+    public String writeHeaderTable(List<dwFile> files) {
+        return this.writeHeaderTable(files, new ArrayList());
+    }
+
+    /**
+     * Writes a header table with the provided dwFile list. This
+     * table will link to each module further down in the document.
+     * @param files is a List of dwFile objects to write.
+     * @param moduleNameList is an optional list of module names that can
+     * be provided to specify the order of modules in the table.
+     * @return A String with the header table text.
+     */
+    @Override
+    public String writeHeaderTable(List<dwFile> files, List<String> moduleNameList) {
+        String ret = "";
+        ret += "| Module | Description |\n";
+        ret += "|-|-|\n";
+
+        // Go through the module list first and add them in order.
+        for (String modName : moduleNameList) {
+            dwFile modFile = this.getFileByModuleName(files, modName);
+            if (modFile != null) {
+                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + modFile.getComment().getText().replaceAll("\n", " ") + " |\n";
+            } else {
+                System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
+            }
+        }
+
+        // Iterate the rest.
+        for (dwFile dwf : files) {
+            if (!moduleNameList.contains(dwf.getName())) {
+                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + dwf.getComment().getText().replaceAll("\n", " ") + " |\n";
+            }
+        }
+
+        ret += "\n";
+
+        return ret;
+    }
+
+    private dwFile getFileByModuleName(List<dwFile> files, String name) {
+        dwFile ret = null;
+        for(dwFile dwf : files) {
+            if (dwf.getName().equals(name)) {
+                ret = dwf;
+                break;
+            }
         }
         return ret;
     }

@@ -27,6 +27,7 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The main entry point class implements the normal main
@@ -78,6 +79,32 @@ public class Main extends AbstractMojo {
     String outputFile = "target/knit-doc.md";
 
     /**
+     * Maven config value outputHeaderText.
+     * If set this will be output in the document at
+     * the top of the document as is. Set as a CDATA element.
+     */
+    @Parameter(property = "outputHeaderText")
+    String outputHeaderText = "";
+
+    /**
+     * Maven config value writeHeaderTable.
+     * If set to true this will write a table towards
+     * the top of the doc that links to each module below. This
+     * works in conjunction with headerTableModuleList.
+     */
+    @Parameter(property = "writeHeaderTable")
+    boolean writeHeaderTable = false;
+
+    /**
+     * Maven config value headerTableModuleList.
+     * If writeHeaderTable is set to true then this list
+     * can be provided to provide the specified order of modules
+     * in the header table.
+     */
+    @Parameter(property = "headerTableModuleList")
+    String[] headerTableModuleList = new String[0];
+
+    /**
      * Accessor to set the directories. So as to not overwrite the initial value, this checks
      * to see if the provided list is > 0 before replacing.
      * @param Directories is an array of strings with the list of directories to parse.
@@ -89,6 +116,12 @@ public class Main extends AbstractMojo {
      * @param Files is an array of strings with the list of files to parse.
      */
     public void setFiles(String[] Files) { this.files = Files; }
+
+    /**
+     * Accessor to set the module list.
+     * @param ModuleList is an array of strings with the module list specified.
+     */
+    public void setHeaderTableModuleList(String[] ModuleList) { this.headerTableModuleList = ModuleList; }
 
     /**
      * Main entry point of the application. This is currently just for testing.
@@ -148,39 +181,59 @@ public class Main extends AbstractMojo {
             }
 
             if (this.files.length > 0 || this.directories.length > 0) {
-                ArrayList<dwFile> parsedFiles = new ArrayList<dwFile>();
-
-                try {
-                    // Parse directories
-                    for (String dir : this.directories) {
-                        Main.parseDirectory(dir, dir, parsedFiles);
-                    }
-
-                    // Parse files
-                    knitParser parser = new knitParser();
-                    for (String fname : this.files) {
-                        File f = new File(fname);
-                        parsedFiles.add(parser.parseFile(f.getParent(), fname));
-                    }
-
-                    // Create the doc writer and write the doc.
-                    dwDocWriter writer = new markdownDwDocWriterImpl();
-                    String doc = writer.writeDoc(parsedFiles);
-                    util.write(this.outputFile, doc, false);
-                    System.out.println("Document has been written to '" + this.outputFile + "'.");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println("Error: knit-maven-plugin parse failed.");
-                    System.exit(1);
-                }
-
-
+                this.writeDwFile();
             } else {
                 System.err.println("Error: knit-maven-plugin <srcFiles> or <srcDirectories> aren't specified.");
                 System.exit(1);
             }
         } else {
             System.out.println("Info: knit-maven-plugin skipping doc generation. (generate=false)");
+        }
+    }
+
+    /**
+     * Writes the dataweave doc file.
+     */
+    private void writeDwFile() {
+        ArrayList<dwFile> parsedFiles = new ArrayList<dwFile>();
+
+        try {
+            // Parse directories
+            for (String dir : this.directories) {
+                Main.parseDirectory(dir, dir, parsedFiles);
+            }
+
+            // Parse files
+            knitParser parser = new knitParser();
+            for (String fname : this.files) {
+                File f = new File(fname);
+                parsedFiles.add(parser.parseFile(f.getParent(), fname));
+            }
+
+            // Create the doc writer and write the doc.
+            dwDocWriter writer = new markdownDwDocWriterImpl();
+            String doc = "";
+
+            // If header text is set.
+            if (!this.outputHeaderText.equals("")) {
+                doc += this.outputHeaderText + "\n\n";
+            }
+
+            // If write header table is set.
+            if (this.writeHeaderTable) {
+                doc += writer.writeHeaderTable(parsedFiles, Arrays.asList(this.headerTableModuleList));
+            }
+
+            // Write the doc.
+            doc += writer.writeDoc(parsedFiles);
+
+            // Output to file.
+            util.write(this.outputFile, doc, false);
+            System.out.println("Document has been written to '" + this.outputFile + "'.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error: knit-maven-plugin parse failed.");
+            System.exit(1);
         }
     }
 
