@@ -76,7 +76,7 @@ public class knitParser {
         ArrayList<dwFunction> ret = new ArrayList<dwFunction>();
 
         // Get functions sections.
-        String funPatternStr = "(\\/\\*\\*[^\\/]+?\\*\\/\\s*fun\\s*\\w*\\(.*?\\))";
+        String funPatternStr = "(\\/\\*\\*[^\\/]+?\\*\\/\\s*fun\\s*\\w*\\s*\\(.*?\\))";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(text);
         while (m.find()) {
@@ -97,7 +97,7 @@ public class knitParser {
     private dwFunction parseFunctionString(String functionString) {
         dwFunction funct = new dwFunction();
 
-        String funPatternStr = "\\/\\*\\*(.+?)\\*\\/\\s*fun\\s*(\\w*)\\((.*?)\\)";
+        String funPatternStr = "\\/\\*\\*(.+?)\\*\\/\\s*fun\\s*(\\w*)\\s*\\((.*?)\\)";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(functionString);
         while (m.find()) {

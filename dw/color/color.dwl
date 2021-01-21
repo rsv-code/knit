@@ -9,7 +9,7 @@
  * @p data is an input color object.
  * @r a result color object.
  */
-fun mapColor(data) = {
+fun mapColor (data) = {
     name: data.color,
     "type": data.category,
     colorType: data."type",
@@ -22,7 +22,7 @@ fun mapColor(data) = {
  * @p rgba is an array with the 4 RGBA values.
  * @r A RGBA string.
  */
-fun mapRgba(rgba) = 
+fun mapRgba (rgba) =
 (if (!isEmpty(rgba))
     "(" ++ rgba[0] ++ ", " ++ rgba[1] ++ ", " ++ rgba[2] ++ ", " ++ rgba[3] ++ ")"
 else null)

@@ -12,6 +12,6 @@ import mapColor from dw::color::color
  * @p data is a colors object.
  * @r a myColors object.
  */
-fun mapPalette(data) = {
+fun mapPalette (data) = {
     myColors: data.colors map (item, index) -> mapColor(item)
 }
