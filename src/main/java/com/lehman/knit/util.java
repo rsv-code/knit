@@ -111,4 +111,14 @@ public class util {
 			}
 	    }
 	}
+
+	/**
+	 * Strips all newline characters and replaces with a space. If there are muptiple
+	 * spaces in a row it also makes them a single space.
+	 * @param in is the String to fix.
+	 * @return A String with newline replaced.
+	 */
+	public static String stripNewLines(String in) {
+		return in.replaceAll("\n", " ").replaceAll("\\s+", " ");
+	}
 }

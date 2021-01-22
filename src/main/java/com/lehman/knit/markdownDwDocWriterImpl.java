@@ -127,7 +127,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         for (String modName : moduleNameList) {
             dwFile modFile = this.getFileByModuleName(files, modName);
             if (modFile != null) {
-                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + modFile.getComment().getText().replaceAll("\n", " ") + " |\n";
+                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + util.stripNewLines(modFile.getComment().getText()) + " |\n";
             } else {
                 System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
             }
@@ -136,7 +136,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         // Iterate the rest.
         for (dwFile dwf : files) {
             if (!moduleNameList.contains(dwf.getName())) {
-                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + dwf.getComment().getText().replaceAll("\n", " ") + " |\n";
+                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + util.stripNewLines(dwf.getComment().getText()) + " |\n";
             }
         }
 
@@ -185,7 +185,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         for(dwFunction fun : file.getFunctions()) {
             ret += "__fun__ `" + fun.getName() + "` ( " + this.writeFunctArgs(fun) + ")\n\n";
             ret += this.writeFunctAnnotations(fun) + "\n";
-            ret += "> " + fun.getComment().getText().replaceAll("\n", "  \n") + "\n\n";
+            ret += "> " + util.stripNewLines(fun.getComment().getText()) + "\n\n";
         }
 
         return ret;
@@ -227,12 +227,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
             if (ann.getName().toLowerCase().equals("r")) {
                 retAnn = ann;
             } else if (ann.getName().toLowerCase().equals("p")) {
-                ret += "__param__ `" + ann.getKey() + "` " + ann.getValue().replaceAll("\n", "  \n");
+                ret += "__param__ `" + ann.getKey() + "` " + util.stripNewLines(ann.getValue()) + "  \n";
             }
         }
 
         if (retAnn != null) {
-            ret += "__return__ " + retAnn.getValue().replaceAll("\n", "  \n");
+            ret += "__return__ " + util.stripNewLines(retAnn.getValue()) + "  \n";
         }
 
         if (!ret.equals("")) {
