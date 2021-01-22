@@ -38,6 +38,15 @@ public interface dwDocWriter {
     public String writeDoc(List<dwFile> files);
 
     /**
+     * Writes a doc with the provided dwFile list and moduleNameList.
+     * @param files is a List of dwFile objects to write.
+     * @param moduleNameList is an optional list of module names that can
+     * be provided to specify the order of modules.
+     * @return A String with the document text.
+     */
+    public String writeDoc(List<dwFile> files, List<String> moduleNameList);
+
+    /**
      * Writes a header table with the provided dwFile list. This
      * table will link to each module further down in the document.
      * @param files is a List of dwFile objects to write.
@@ -50,7 +59,7 @@ public interface dwDocWriter {
      * table will link to each module further down in the document.
      * @param files is a List of dwFile objects to write.
      * @param moduleNameList is an optional list of module names that can
-     * be provided to specify the order of modules in the table.
+     * be provided to specify the order of modules.
      * @return A String with the header table text.
      */
     public String writeHeaderTable(List<dwFile> files, List<String> moduleNameList);

@@ -101,8 +101,8 @@ public class Main extends AbstractMojo {
      * can be provided to provide the specified order of modules
      * in the header table.
      */
-    @Parameter(property = "headerTableModuleList")
-    String[] headerTableModuleList = new String[0];
+    @Parameter(property = "moduleList")
+    String[] moduleList = new String[0];
 
     /**
      * Accessor to set the directories. So as to not overwrite the initial value, this checks
@@ -121,7 +121,7 @@ public class Main extends AbstractMojo {
      * Accessor to set the module list.
      * @param ModuleList is an array of strings with the module list specified.
      */
-    public void setHeaderTableModuleList(String[] ModuleList) { this.headerTableModuleList = ModuleList; }
+    public void setModuleList(String[] ModuleList) { this.moduleList = ModuleList; }
 
     /**
      * Main entry point of the application. This is currently just for testing.
@@ -221,7 +221,7 @@ public class Main extends AbstractMojo {
 
             // If write header table is set.
             if (this.writeHeaderTable) {
-                doc += writer.writeHeaderTable(parsedFiles, Arrays.asList(this.headerTableModuleList));
+                doc += writer.writeHeaderTable(parsedFiles, Arrays.asList(this.moduleList));
             }
 
             // Write the doc.

@@ -64,11 +64,37 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      */
     @Override
     public String writeDoc(List<dwFile> files) {
+        return this.writeDoc(files, new ArrayList());
+    }
+
+    /**
+     * Writes a doc with the provided dwFile list and moduleNameList.
+     * @param files is a List of dwFile objects to write.
+     * @param moduleNameList is an optional list of module names that can
+     * be provided to specify the order of modules.
+     * @return A String with the document text.
+     */
+    @Override
+    public String writeDoc(List<dwFile> files, List<String> moduleNameList) {
         String ret = "";
 
-        for(dwFile f : files) {
-            ret += this.writeDoc(f) + "\n";
+        // Go through the module list first and add them in order.
+        for (String modName : moduleNameList) {
+            dwFile modFile = this.getFileByModuleName(files, modName);
+            if (modFile != null) {
+                ret += this.writeDoc(modFile) + "\n";
+            } else {
+                System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
+            }
         }
+
+        // Iterate the rest.
+        for (dwFile dwf : files) {
+            if (!moduleNameList.contains(dwf.getName())) {
+                ret += this.writeDoc(dwf) + "\n";
+            }
+        }
+
         return ret;
     }
 

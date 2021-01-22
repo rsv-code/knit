@@ -117,15 +117,11 @@ This app is for testing the knit maven plugin.
           <writeHeaderTable>true</writeHeaderTable>
           -->
           
-          <!-- If writeHeaderTable is set to true then you can provide an 
-            optional list of modules in the order you want them to appear in 
-            the table.
-          -->
-          <!--
-          <headerTableModuleList>
+          <!-- Provide a list of modules in the order you want them to appear.
+          <moduleList>
               <module>main</module>
               <module>palette</module>
-          </headerTableModuleList>
+          </moduleList>
           -->
          
     </configuration>
@@ -153,9 +149,8 @@ the default values which should work for most cases.
   If set to true a table with each module name and description will be built 
   below the outputHeaderText and before the regular documentation. Each module 
   will link to it's place in the document.
-- **headerTableModuleList** - A list of strings with the module names. This list 
-  allows you to specify the order that modules will be written to the header 
-  table. This only applies if writeHeaderTable is set to true.
+- **moduleList** - A list of strings with the module names. This list 
+  allows you to specify the order that modules will be written.
 
 
 # Comments
