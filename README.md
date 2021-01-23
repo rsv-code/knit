@@ -23,9 +23,9 @@ Then you add the plugin to your pom like this.
 
 ```
 <plugin>
-    <groupId>com.lehman</groupId>
+    <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.4</version>
     <executions>
         <execution>
             <goals>
@@ -43,30 +43,18 @@ target directory. It's that simple.
 Knit requires JDK 8 or later. It may work on previous versions but you will 
 need to update the pom.xml in that case. It also requires maven of course.
 
-# Install
-
-To install the plugin just clone the repo and then install with maven.
-```
-$ git clone git@github.com:rsv-code/knit.git
-$ cd knit
-$ mvn clean install
-```
-
-Done and done, that's all you need to use in your project. Just add it to 
-the pom.xml and you're golden.
-
 
 # Usage
 
 Since this is a Maven plugin all you have to do is reference it in the 
-pom.xml of the project you want to use it in so long as you already 
-locally installed the plugin.
+pom.xml of the project you want to use it in. The plugin exists in Maven 
+Central Repository so adding this to the pom is all that's needed.
 
 ```
 <plugin>
-    <groupId>com.lehman</groupId>
+    <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.4</version>
     <executions>
         <execution>
             <goals>
@@ -190,6 +178,20 @@ parameters and return values by using @p and @r respectively.
 fun mapColor(data) = {
 ...
 ```
+
+# Installing Locally
+
+Normally you should just be able to add the plugin to your pom and away you go. In 
+the event that you want to builld and install from source, here's how it's done. 
+To install the plugin locally just clone the repo and then install with maven.
+```
+$ git clone git@github.com:rsv-code/knit.git
+$ cd knit
+$ mvn clean install
+```
+
+Done and done, that's all you need to use in your project. Just add it to 
+the pom.xml and you're golden.
 
 # License
 Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)

@@ -225,7 +225,7 @@ public class Main extends AbstractMojo {
             }
 
             // Write the doc.
-            doc += writer.writeDoc(parsedFiles);
+            doc += writer.writeDoc(parsedFiles, Arrays.asList(this.moduleList));
 
             // Output to file.
             util.write(this.outputFile, doc, false);
