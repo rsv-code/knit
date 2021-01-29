@@ -19,6 +19,7 @@ package com.lehman.knit;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Class models a dataweave file.
@@ -78,7 +79,8 @@ public class dwFile {
         this.fileName = (new File(FileNameAndPath)).getName();
         this.name = fileName.substring(0, fileName.length()-4);
         String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - 4);
-        this.modulePath = util.fromArray(pathStr.split(File.separator));
+        String sepPattern = Pattern.quote(File.separator);
+        this.modulePath = util.fromArray(pathStr.split(sepPattern));
     }
 
     /**

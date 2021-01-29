@@ -18,8 +18,6 @@
 package com.lehman.knit;
 
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -34,7 +32,7 @@ import java.util.Arrays;
  * function as well as the Mojo execute function for
  * maven plugin support.
  */
-@Mojo(name = "knit", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "knit", defaultPhase = LifecyclePhase.PACKAGE)
 public class Main extends AbstractMojo {
     /**
      * This isn't used but there in case it's needed later. It provides
@@ -167,27 +165,30 @@ public class Main extends AbstractMojo {
 
     /**
      * The entry point of the maven plugin.
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
      */
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() {
         this.printAbout();
         System.out.println("Running Knit doc generator ...");
 
-        if (this.generate) {
-            if (!this.singleOutputFile) {
-                System.err.println("Error: knit-maven-plugin <singleOutputFile> is set to false but only single file is currently implemented.");
-                System.exit(1);
-            }
+        try {
+            if (this.generate) {
+                if (!this.singleOutputFile) {
+                    System.err.println("Error: knit-maven-plugin <singleOutputFile> is set to false but only single file is currently implemented.");
+                    System.exit(1);
+                }
 
-            if (this.files.length > 0 || this.directories.length > 0) {
-                this.writeDwFile();
+                if (this.files.length > 0 || this.directories.length > 0) {
+                    this.writeDwFile();
+                } else {
+                    System.err.println("Error: knit-maven-plugin <srcFiles> or <srcDirectories> aren't specified.");
+                    System.exit(1);
+                }
             } else {
-                System.err.println("Error: knit-maven-plugin <srcFiles> or <srcDirectories> aren't specified.");
-                System.exit(1);
+                System.out.println("Info: knit-maven-plugin skipping doc generation. (generate=false)");
             }
-        } else {
-            System.out.println("Info: knit-maven-plugin skipping doc generation. (generate=false)");
+        } catch (Exception e) {
+            System.err.println("Bad news, the knit plugin ran into trouble. If it continues please report it at https://github.com/rsv-code/knit.\n");
+            e.printStackTrace();
         }
     }
 
