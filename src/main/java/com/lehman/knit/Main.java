@@ -17,6 +17,7 @@
 
 package com.lehman.knit;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.plugin.AbstractMojo;
@@ -153,7 +154,7 @@ public class Main extends AbstractMojo {
         if (dir.exists()) {
             if (dir.isDirectory()) {
                 for (String name : dir.list()) {
-                    String relName = dir.getAbsolutePath() + File.separator + name;
+                    String relName = dir.getAbsolutePath() + "/" + name;
                     File f = new File(relName);
                     if (f.isFile() && relName.endsWith(".dwl")) {
                         parsedFiles.add(parser.parseFile(dir.getAbsolutePath(), relName));
@@ -207,13 +208,13 @@ public class Main extends AbstractMojo {
         try {
             // Parse directories
             for (String dir : this.directories) {
-                this.parseDirectory(this.getWorkingDirectory() + File.separator + dir, parsedFiles);
+                this.parseDirectory(this.getWorkingDirectory() + "/" + dir, parsedFiles);
             }
 
             // Parse files
             knitParser parser = new knitParser();
             for (String fname : this.files) {
-                File f = new File(this.getWorkingDirectory() + File.separator + fname);
+                File f = new File(this.getWorkingDirectory() + "/" + fname);
                 parsedFiles.add(parser.parseFile(f.getParent(), fname));
             }
 
@@ -236,7 +237,7 @@ public class Main extends AbstractMojo {
 
             // Output to file.
             util.write(
-                    this.getWorkingDirectory() + File.separator +this.outputFile,
+                    this.getWorkingDirectory() + "/" +this.outputFile,
                     doc,
                     false
             );
@@ -257,7 +258,11 @@ public class Main extends AbstractMojo {
         Model model = this.project.getModel();
         Build build = model.getBuild();
         File dir = new File(build.getDirectory());
-        return dir.getParent();
+        String ret = dir.getParent();
+        if (SystemUtils.IS_OS_WINDOWS){
+            ret = ret.replace("\\", "/");
+        }
+        return ret;
     }
 
     /**

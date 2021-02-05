@@ -40,9 +40,7 @@ public class knitParser {
      * @throws IOException
      */
     public dwFile parseFile(String rootDirName, String fileName) throws IOException {
-        dwFile ret = new dwFile(fileName.replaceFirst(
-                rootDirName.replaceAll("\\", "\\\\"),
-                ""));
+        dwFile ret = new dwFile(fileName.replaceFirst(rootDirName, ""));
         String fileStr = util.read(fileName);
         this.parseModuleComment(fileStr, ret);
         ret.setVariables(this.parseVariables(fileStr));
