@@ -17,6 +17,8 @@
 
 package com.lehman.knit;
 
+import org.apache.maven.model.Build;
+import org.apache.maven.model.Model;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -130,8 +132,9 @@ public class Main extends AbstractMojo {
         //knitParser parser = new knitParser();
         //dwFile f = parser.parseFile("dw/test.dw");
 
+        Main mn = new Main();
         ArrayList<dwFile> parsedFiles = new ArrayList<dwFile>();
-        Main.parseDirectory("dw", "dw", parsedFiles);
+        mn.parseDirectory("dw", parsedFiles);
 
         dwDocWriter writer = new markdownDwDocWriterImpl();
         String doc = writer.writeDoc(parsedFiles);
@@ -140,26 +143,29 @@ public class Main extends AbstractMojo {
 
     /**
      * Parses a DW directory with the provided arguments.
-     * @param rootDirName is a String with the root directory to parse.
      * @param dirName is a String with the directory name.
      * @param parsedFiles is an ArrayList of dwFile objects to store the parsed results.
      * @throws Exception
      */
-    public static void parseDirectory(String rootDirName, String dirName, ArrayList<dwFile> parsedFiles) throws Exception {
+    public void parseDirectory(String dirName, ArrayList<dwFile> parsedFiles) throws Exception {
         knitParser parser = new knitParser();
         File dir = new File(dirName);
-        if (dir.isDirectory()) {
-            for (String name : dir.list()) {
-                String relName = dirName + "/" + name;
-                File f = new File(relName);
-                if (f.isFile() && relName.endsWith(".dwl")) {
-                    parsedFiles.add(parser.parseFile(rootDirName, relName));
-                } else if (f.isDirectory()) {
-                    parseDirectory(rootDirName, relName, parsedFiles);
+        if (dir.exists()) {
+            if (dir.isDirectory()) {
+                for (String name : dir.list()) {
+                    String relName = dir.getAbsolutePath() + File.separator + name;
+                    File f = new File(relName);
+                    if (f.isFile() && relName.endsWith(".dwl")) {
+                        parsedFiles.add(parser.parseFile(dir.getAbsolutePath(), relName));
+                    } else if (f.isDirectory()) {
+                        parseDirectory(relName, parsedFiles);
+                    }
                 }
+            } else {
+                System.err.println("Provided directory '" + dirName + "' isn't a directory.");
             }
         } else {
-            throw new Exception("Provided directory '" + dirName + "' isn't a directory.");
+            System.err.println("Provided directory '" + dirName + "' doesn't exist.");
         }
     }
 
@@ -201,13 +207,13 @@ public class Main extends AbstractMojo {
         try {
             // Parse directories
             for (String dir : this.directories) {
-                Main.parseDirectory(dir, dir, parsedFiles);
+                this.parseDirectory(this.getWorkingDirectory() + File.separator + dir, parsedFiles);
             }
 
             // Parse files
             knitParser parser = new knitParser();
             for (String fname : this.files) {
-                File f = new File(fname);
+                File f = new File(this.getWorkingDirectory() + File.separator + fname);
                 parsedFiles.add(parser.parseFile(f.getParent(), fname));
             }
 
@@ -229,13 +235,29 @@ public class Main extends AbstractMojo {
             doc += writer.writeDoc(parsedFiles, Arrays.asList(this.moduleList));
 
             // Output to file.
-            util.write(this.outputFile, doc, false);
+            util.write(
+                    this.getWorkingDirectory() + File.separator +this.outputFile,
+                    doc,
+                    false
+            );
             System.out.println("Document has been written to '" + this.outputFile + "'.");
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error: knit-maven-plugin parse failed.");
-            System.exit(1);
         }
+    }
+
+    /**
+     * Gets the working directory for the plugin. This should return the maven
+     * directory that's the parent to 'target'.
+     * @return the current working directory.
+     */
+    private String getWorkingDirectory() {
+        Model model = this.project.getModel();
+        Build build = model.getBuild();
+        File dir = new File(build.getDirectory());
+        return dir.getParent();
     }
 
     /**
@@ -255,7 +277,7 @@ public class Main extends AbstractMojo {
                 " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ \n" +
                 "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n" +
                 "                                                                                                  \n";
-        out += "Knit 1.0 - DataWeave Document Generator\n";
+        out += "Knit 1.0.6 - DataWeave Document Generator\n";
         out += "Written By Austin Lehman\n";
         out += "austin@rosevillecode.com\n";
         out += "Copyright 2020 Roseville Code Inc.\n";
