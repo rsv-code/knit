@@ -154,10 +154,10 @@ public class Main extends AbstractMojo {
         if (dir.exists()) {
             if (dir.isDirectory()) {
                 for (String name : dir.list()) {
-                    String relName = dir.getAbsolutePath() + "/" + name;
+                    String relName = dirName + "/" + name;
                     File f = new File(relName);
                     if (f.isFile() && relName.endsWith(".dwl")) {
-                        parsedFiles.add(parser.parseFile(dir.getAbsolutePath(), relName));
+                        parsedFiles.add(parser.parseFile(dirName, relName));
                     } else if (f.isDirectory()) {
                         parseDirectory(relName, parsedFiles);
                     }
@@ -215,7 +215,7 @@ public class Main extends AbstractMojo {
             knitParser parser = new knitParser();
             for (String fname : this.files) {
                 File f = new File(this.getWorkingDirectory() + "/" + fname);
-                parsedFiles.add(parser.parseFile(f.getParent(), fname));
+                parsedFiles.add(parser.parseFile(this.getWorkingDirectory(), fname));
             }
 
             // Create the doc writer and write the doc.

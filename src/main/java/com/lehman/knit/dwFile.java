@@ -79,7 +79,7 @@ public class dwFile {
         this.fileName = (new File(FileNameAndPath)).getName();
         this.name = fileName.substring(0, fileName.length()-4);
         String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - 4);
-        String sepPattern = Pattern.quote(File.separator);
+        String sepPattern = Pattern.quote("/");
         this.modulePath = util.fromArray(pathStr.split(sepPattern));
     }
 
