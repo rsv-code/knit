@@ -25,7 +25,7 @@ Then you add the plugin to your pom like this.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.7</version>
     <executions>
         <execution>
             <goals>
@@ -54,7 +54,7 @@ Central Repository so adding this to the pom is all that's needed.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.7</version>
     <executions>
         <execution>
             <goals>
@@ -187,7 +187,7 @@ To install the plugin locally just clone the repo and then install with maven.
 ```
 $ git clone git@github.com:rsv-code/knit.git
 $ cd knit
-$ mvn clean install
+$ mvn clean install -Dgpg.skip
 ```
 
 Done and done, that's all you need to use in your project. Just add it to 
