@@ -186,6 +186,9 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
             ret += "__fun__ `" + fun.getName() + "` ( " + this.writeFunctArgs(fun) + ")\n\n";
             ret += this.writeFunctAnnotations(fun) + "\n";
             ret += "> " + util.stripNewLines(fun.getComment().getText()) + "\n\n";
+            if (fun.getTable() != null) {
+                ret += writeAnnotationTable(fun.getTable()) + "\n\n";
+            }
         }
 
         return ret;
@@ -239,6 +242,26 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
             ret = "> " + ret + "> ";
         }
 
+        return ret;
+    }
+
+    /**
+     * Writes the annotation table to string.
+     * @param tbl is an annotationTable object to write.
+     * @return A String with the annotation table.
+     */
+    private String writeAnnotationTable(annotationTable tbl) {
+        String ret = "";
+        ret += "> | " + util.join(" | ", tbl.getColumns()) + " | \n";
+        // divider
+        ret += "> | ";
+        for (int i = 0; i < tbl.getColumns().size(); i++) {
+            ret += "-|";
+        }
+        ret += "\n";
+        for (annotationRow row : tbl.getRows()) {
+            ret += "> | " + util.join(" | ", row.getFields()) + " | \n";
+        }
         return ret;
     }
 }

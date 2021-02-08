@@ -104,6 +104,7 @@ public class knitParser {
             funct.setCommentString(this.parseCommentString(m.group(1).toString()).trim());
             funct.setName(m.group(2).toString());
             funct.setComment(this.parseComment(funct.getCommentString()));
+            funct.setTable(this.parseAnnotationTable(funct.getComment()));
             funct.setArguments(this.parseArguments(m.group(3).toString()));
         }
 
@@ -253,5 +254,53 @@ public class knitParser {
         }
 
         return var;
+    }
+
+    /**
+     * Looks for annotations for table and returns an annotationTable object if found
+     * and null if not.
+     * @param comment is a dwComment object to search.
+     * @return An annotationTable object if found or null if not.
+     */
+    private annotationTable parseAnnotationTable(dwComment comment) {
+        annotationTable tbl = null;
+
+        // Look for the table definition
+        for (dwCommentAnnotation ann : comment.getAnnotations()) {
+            if (ann.getName().toLowerCase().equals("tbl")) {
+                tbl = new annotationTable();
+
+                ArrayList<String> cols = new ArrayList<String>();
+
+                for (String col : util.fromArray(ann.getValue().split("(?<!\\\\\\\\),"))) {
+                    cols.add(col.replaceAll("\n", ""));
+                }
+
+                tbl.setColumns(cols);
+                break;
+            }
+        }
+
+        // Look for rows now.
+        if (tbl != null) {
+            ArrayList<annotationRow> rows = new ArrayList<annotationRow>();
+            for (dwCommentAnnotation ann : comment.getAnnotations()) {
+                if (ann.getName().toLowerCase().equals("row")) {
+                    annotationRow row = new annotationRow();
+
+                    ArrayList<String> fields = new ArrayList<String>();
+                    for (String str : ann.getValue().split("(?<!\\\\\\\\),")) {
+                        // Replace escaped commas.
+                        fields.add(str.replaceAll("\\\\\\\\,", ",").replaceAll("\n", ""));
+                    }
+
+                    row.setFields(fields);
+                    rows.add(row);
+                }
+            }
+            tbl.setRows(rows);
+        }
+
+        return tbl;
     }
 }

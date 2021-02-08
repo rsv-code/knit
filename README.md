@@ -2,6 +2,8 @@
 
 # Knit - Dataweave Document Generator
 
+![Knit Intro](knit-intro.png)
+
 Written by Austin Lehman
 
 Knit is a Maven plugin that generates documentation from source code 
@@ -178,6 +180,28 @@ parameters and return values by using @p and @r respectively.
 fun mapColor(data) = {
 ...
 ```
+
+As of version 1.0.8 you can also specify a mapping table. Here's the general syntax. 
+Columns and fields are separated by commas and you can escape a comma with two back 
+slashes like this '\\,'.
+
+```
+/**
+ * Maps a color object to a result color object.
+ * @p data is an input color object.
+ * @r a result color object.
+ * @tbl out, in, comments
+ * @row name, data.color, The name\\, of the color.
+ * @row type, data.category, The data category.
+ * @row rgba, data.code.rgba, Mapped RGBA value.
+ * @row hex, data.code.hex, The hex color value.
+ */
+fun mapColor(data) = {
+...
+```
+
+The @tbl is set with the comma separated column names and then the @row annotations 
+then follow in order with each row of the table.
 
 # Installing Locally
 

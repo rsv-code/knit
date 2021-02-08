@@ -44,6 +44,11 @@ public class dwFunction {
     private ArrayList<dwArgument> arguments = new ArrayList<dwArgument>();
 
     /**
+     * Annotation table if set.
+     */
+    private annotationTable table = null;
+
+    /**
      * Gets the comment string of the function.
      * @return A String with the comment of the function.
      */
@@ -105,5 +110,21 @@ public class dwFunction {
      */
     public void setArguments(ArrayList<dwArgument> arguments) {
         this.arguments = arguments;
+    }
+
+    /**
+     * Gets the annotation table.
+     * @return An annotationTable object if set or null if not.
+     */
+    public annotationTable getTable() {
+        return table;
+    }
+
+    /**
+     * Sets the annotation table.
+     * @param table is an annotationTable object to set.
+     */
+    public void setTable(annotationTable table) {
+        this.table = table;
     }
 }

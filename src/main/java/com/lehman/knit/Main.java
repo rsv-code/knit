@@ -282,7 +282,7 @@ public class Main extends AbstractMojo {
                 " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ \n" +
                 "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n" +
                 "                                                                                                  \n";
-        out += "Knit 1.0.7 - DataWeave Document Generator\n";
+        out += "Knit 1.0.8 - DataWeave Document Generator\n";
         out += "Written By Austin Lehman\n";
         out += "austin@rosevillecode.com\n";
         out += "Copyright 2020 Roseville Code Inc.\n";
