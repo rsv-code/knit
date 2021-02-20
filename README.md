@@ -49,8 +49,9 @@ need to update the pom.xml in that case. It also requires maven of course.
 # Usage
 
 Since this is a Maven plugin all you have to do is reference it in the 
-pom.xml of the project you want to use it in. The plugin exists in Maven 
-Central Repository so adding this to the pom is all that's needed.
+pom.xml of the project you want to use it in. [The plugin exists in Maven 
+Central Repository](https://search.maven.org/artifact/io.github.rsv-code/knit-maven-plugin) 
+so adding this with the latest version to the pom is all that's needed.
 
 ```
 <plugin>

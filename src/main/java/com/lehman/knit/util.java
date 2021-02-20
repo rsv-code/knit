@@ -119,7 +119,7 @@ public class util {
 	 * @return A String with newline replaced.
 	 */
 	public static String stripNewLines(String in) {
-		return 
+		return
 				in.replaceAll("\n", " ")
 						.replaceAll("\r", " ")
 						.replaceAll("\\s+", " ");
