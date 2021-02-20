@@ -173,7 +173,7 @@ public class Main extends AbstractMojo {
                 for (String name : dir.list()) {
                     String relName = dirName + "/" + name;
                     File f = new File(relName);
-                    if (f.isFile() && relName.endsWith(".dwl")) {
+                    if (f.isFile() && relName.endsWith("." + dwlFileExt)) {
                         parsedFiles.add(parser.parseFile(dirName, relName, dwlFileExt));
                     } else if (f.isDirectory()) {
                         parseDirectory(relName, parsedFiles);

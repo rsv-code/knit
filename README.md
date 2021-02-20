@@ -148,6 +148,14 @@ the default values which should work for most cases.
 - **dwlFileExt** - A String with the file extension for DataWeave files. The default 
 is dwl. This needs to be set if your DataWeave files have a different file extension.
 
+## Generating The Doc
+Knit is executed from the maven package lifecycle phase. In studio certain conditions 
+will cause it to run maven package. To trigger the build, do the following.
+From the command line in your project dictory (where the pom is) run something like 
+this to generate the doc. 
+```
+mvn clean package
+```
 
 # Comments
 
