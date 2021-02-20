@@ -88,6 +88,15 @@ public class Main extends AbstractMojo {
     String outputHeaderText = "";
 
     /**
+     * Maven config value outputFooterText.
+     * If set this will be output in the document at
+     * the bottom of the document as is. Set as a CDATA element.
+     */
+    @Parameter(property = "outputFooterText")
+    String outputFooterText = "";
+
+
+    /**
      * Maven config value writeHeaderTable.
      * If set to true this will write a table towards
      * the top of the doc that links to each module below. This
@@ -104,6 +113,14 @@ public class Main extends AbstractMojo {
      */
     @Parameter(property = "moduleList")
     String[] moduleList = new String[0];
+
+    /**
+     * Maven config value dwlFileExt.
+     * This provides the ability to define dataweave files
+     * with different file extensions. The default is dwl.
+     */
+    @Parameter(property = "dwlFileExt")
+    String dwlFileExt = "dwl";
 
     /**
      * Accessor to set the directories. So as to not overwrite the initial value, this checks
@@ -157,7 +174,7 @@ public class Main extends AbstractMojo {
                     String relName = dirName + "/" + name;
                     File f = new File(relName);
                     if (f.isFile() && relName.endsWith(".dwl")) {
-                        parsedFiles.add(parser.parseFile(dirName, relName));
+                        parsedFiles.add(parser.parseFile(dirName, relName, dwlFileExt));
                     } else if (f.isDirectory()) {
                         parseDirectory(relName, parsedFiles);
                     }
@@ -215,7 +232,7 @@ public class Main extends AbstractMojo {
             knitParser parser = new knitParser();
             for (String fname : this.files) {
                 File f = new File(this.getWorkingDirectory() + "/" + fname);
-                parsedFiles.add(parser.parseFile(this.getWorkingDirectory(), fname));
+                parsedFiles.add(parser.parseFile(this.getWorkingDirectory(), fname, dwlFileExt));
             }
 
             // Create the doc writer and write the doc.
@@ -234,6 +251,11 @@ public class Main extends AbstractMojo {
 
             // Write the doc.
             doc += writer.writeDoc(parsedFiles, Arrays.asList(this.moduleList));
+
+            // If footer text is set.
+            if (!this.outputFooterText.equals("")) {
+                doc += this.outputFooterText + "\n\n";
+            }
 
             // Output to file.
             util.write(
@@ -282,7 +304,7 @@ public class Main extends AbstractMojo {
                 " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ \n" +
                 "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n" +
                 "                                                                                                  \n";
-        out += "Knit 1.0.8 - DataWeave Document Generator\n";
+        out += "Knit 1.0.9 - DataWeave Document Generator\n";
         out += "Written By Austin Lehman\n";
         out += "austin@rosevillecode.com\n";
         out += "Copyright 2020 Roseville Code Inc.\n";

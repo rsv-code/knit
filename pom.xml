@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <packaging>maven-plugin</packaging>
 
     <name>knit-maven-plugin</name>

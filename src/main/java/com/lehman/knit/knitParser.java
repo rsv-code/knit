@@ -36,11 +36,12 @@ public class knitParser {
      * and returns the parsed dwFile object.
      * @param rootDirName is a String with the root directory of the file to parse.
      * @param fileName is a String with the file name to parse.
+     * @param dwlFileExt is a String with the dataweave file extension. (Default dwl)
      * @return A dwParse object.
      * @throws IOException
      */
-    public dwFile parseFile(String rootDirName, String fileName) throws IOException {
-        dwFile ret = new dwFile(fileName.replaceFirst(rootDirName, ""));
+    public dwFile parseFile(String rootDirName, String fileName, String dwlFileExt) throws IOException {
+        dwFile ret = new dwFile(fileName.replaceFirst(rootDirName, ""), dwlFileExt);
         String fileStr = util.read(fileName);
         this.parseModuleComment(fileStr, ret);
         ret.setVariables(this.parseVariables(fileStr));

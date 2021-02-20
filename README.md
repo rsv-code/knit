@@ -27,7 +27,7 @@ Then you add the plugin to your pom like this.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.9</version>
     <executions>
         <execution>
             <goals>
@@ -56,7 +56,7 @@ Central Repository so adding this to the pom is all that's needed.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.9</version>
     <executions>
         <execution>
             <goals>
@@ -135,12 +135,17 @@ the default values which should work for most cases.
 - **outputHeaderText** - Text to be set at the very begining of the generated 
   doc. This is optional and exists to allow some custom introduction content 
   to be provided.
+- **outputFooterText** - Text to be set at the very end of the generated 
+  doc. This is optional and exists to allow some custom footer content 
+  to be provided.
 - **writeHeaderTable** - A flag to specify if a header table is to be generated. 
   If set to true a table with each module name and description will be built 
   below the outputHeaderText and before the regular documentation. Each module 
   will link to it's place in the document.
 - **moduleList** - A list of strings with the module names. This list 
   allows you to specify the order that modules will be written.
+- **dwlFileExt** - A String with the file extension for DataWeave files. The default 
+is dwl. This needs to be set if your DataWeave files have a different file extension.
 
 
 # Comments
@@ -187,16 +192,17 @@ slashes like this '\\,'.
 
 ```
 /**
- * Maps a color object to a result color object.
- * @p data is an input color object.
- * @r a result color object.
- * @tbl out, in, comments
- * @row name, data.color, The name\\, of the color.
- * @row type, data.category, The data category.
- * @row rgba, data.code.rgba, Mapped RGBA value.
- * @row hex, data.code.hex, The hex color value.
+ * Maps a PIM DB object to a result Product object.
+ * @p product is an input DB Product object.
+ * @r a result Product object.
+ * @tbl Product Object, Database field, Description
+ * @row productId, product.PRODUCT_ID,  The id of the product\\, a new ID.
+ * @row productType,product.product_type, to indicate master or project or variant
+ * @row masterProductId, product.master_product_id, The id of the associated master product
+ * @row productName, product.product_name, The localized name of the product
+ * @row brand, product.BRAND, The brand of the product.
  */
-fun mapColor(data) = {
+fun transformProduct(product) = {
 ...
 ```
 

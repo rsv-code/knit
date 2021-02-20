@@ -73,12 +73,13 @@ public class dwFile {
     /**
      * Constructor with provided file name and path.
      * @param FileNameAndPath is a String with the file name and path.
+     * @param dwlFileExt is a String with the dataweave file extension. (Default dwl)
      */
-    public dwFile(String FileNameAndPath) {
+    public dwFile(String FileNameAndPath, String dwlFileExt) {
         this.fileNameAndPath = FileNameAndPath;
         this.fileName = (new File(FileNameAndPath)).getName();
-        this.name = fileName.substring(0, fileName.length()-4);
-        String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - 4);
+        this.name = fileName.substring(0, fileName.length()-(dwlFileExt.length() + 1));
+        String pathStr = FileNameAndPath.substring(0, FileNameAndPath.length() - (dwlFileExt.length() + 1));
         String sepPattern = Pattern.quote("/");
         this.modulePath = util.fromArray(pathStr.split(sepPattern));
     }

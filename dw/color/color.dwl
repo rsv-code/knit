@@ -8,7 +8,7 @@
  * Maps a color object to a result color object.
  * @p data is an input color object.
  * @r a result color object.
- * @tbl out, in, comments
+ * @tbl Target Field, Source Field, Comments
  * @row name, data.color, The name\\, of the color.
  * @row type, data.category, The data category.
  * @row rgba, data.code.rgba, Mapped RGBA value.
