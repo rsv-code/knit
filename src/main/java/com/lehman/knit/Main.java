@@ -304,7 +304,7 @@ public class Main extends AbstractMojo {
                 " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ " + System.lineSeparator() +
                 "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ " + System.lineSeparator() +
                 "                                                                                                  " + System.lineSeparator();
-        out += "Knit 1.0.10 - DataWeave Document Generator" + System.lineSeparator();
+        out += "Knit 1.0.11 - DataWeave Document Generator" + System.lineSeparator();
         out += "Written By Austin Lehman" + System.lineSeparator();
         out += "austin@rosevillecode.com" + System.lineSeparator();
         out += "Copyright 2020 Roseville Code Inc." + System.lineSeparator();
