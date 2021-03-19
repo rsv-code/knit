@@ -223,9 +223,9 @@ public class DwFile {
     @Override
     public String toString() {
         String rstr = "";
-        rstr += "fileName: " + this.fileName + "\n";
-        rstr += "fileNameAndPath: " + this.fileNameAndPath + "\n";
-        rstr += "modulePath: " + Util.join("::", this.modulePath) + "\n";
+        rstr += "fileName: " + this.fileName + System.lineSeparator();
+        rstr += "fileNameAndPath: " + this.fileNameAndPath + System.lineSeparator();
+        rstr += "modulePath: " + Util.join("::", this.modulePath) + System.lineSeparator();
         return rstr;
     }
 }

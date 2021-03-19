@@ -120,8 +120,7 @@ public class Util {
 	 */
 	public static String stripNewLines(String in) {
 		return
-				in.replaceAll("\n", " ")
-						.replaceAll("\r", " ")
+				in.replaceAll(System.lineSeparator(), " ")
 						.replaceAll("\\s+", " ");
 	}
 }

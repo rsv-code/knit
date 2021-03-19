@@ -211,7 +211,7 @@ public class Main extends AbstractMojo {
                 System.out.println("Info: knit-maven-plugin skipping doc generation. (generate=false)");
             }
         } catch (Exception e) {
-            System.err.println("Bad news, the knit plugin ran into trouble. If it continues please report it at https://github.com/rsv-code/knit.\n");
+            System.err.println("Bad news, the knit plugin ran into trouble. If it continues please report it at https://github.com/rsv-code/knit." + System.lineSeparator());
             e.printStackTrace();
         }
     }
@@ -241,7 +241,7 @@ public class Main extends AbstractMojo {
 
             // If header text is set.
             if (!this.outputHeaderText.equals("")) {
-                doc += this.outputHeaderText + "\n\n";
+                doc += this.outputHeaderText + System.lineSeparator() + System.lineSeparator();
             }
 
             // If write header table is set.
@@ -254,7 +254,7 @@ public class Main extends AbstractMojo {
 
             // If footer text is set.
             if (!this.outputFooterText.equals("")) {
-                doc += this.outputFooterText + "\n\n";
+                doc += this.outputFooterText + System.lineSeparator() + System.lineSeparator();
             }
 
             // Output to file.
@@ -292,22 +292,22 @@ public class Main extends AbstractMojo {
      */
     private void printAbout() {
         String out = "";
-        out += " __  __     __   __     __     ______      _____     ______     ______                            \n" +
-                "/\\ \\/ /    /\\ \"-.\\ \\   /\\ \\   /\\__  _\\    /\\  __-.  /\\  __ \\   /\\  ___\\                           \n" +
-                "\\ \\  _\"-.  \\ \\ \\-.  \\  \\ \\ \\  \\/_/\\ \\/    \\ \\ \\/\\ \\ \\ \\ \\/\\ \\  \\ \\ \\____                          \n" +
-                " \\ \\_\\ \\_\\  \\ \\_\\\\\"\\_\\  \\ \\_\\    \\ \\_\\     \\ \\____-  \\ \\_____\\  \\ \\_____\\                         \n" +
-                "  \\/_/\\/_/   \\/_/ \\/_/   \\/_/     \\/_/      \\/____/   \\/_____/   \\/_____/                         \n" +
-                "                                                                                                  \n" +
-                " ______     ______     __   __     ______     ______     ______     ______   ______     ______    \n" +
-                "/\\  ___\\   /\\  ___\\   /\\ \"-.\\ \\   /\\  ___\\   /\\  == \\   /\\  __ \\   /\\__  _\\ /\\  __ \\   /\\  == \\   \n" +
-                "\\ \\ \\__ \\  \\ \\  __\\   \\ \\ \\-.  \\  \\ \\  __\\   \\ \\  __<   \\ \\  __ \\  \\/_/\\ \\/ \\ \\ \\/\\ \\  \\ \\  __<   \n" +
-                " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ \n" +
-                "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ \n" +
-                "                                                                                                  \n";
-        out += "Knit 1.0.10 - DataWeave Document Generator\n";
-        out += "Written By Austin Lehman\n";
-        out += "austin@rosevillecode.com\n";
-        out += "Copyright 2020 Roseville Code Inc.\n";
+        out += " __  __     __   __     __     ______      _____     ______     ______                            " + System.lineSeparator() +
+                "/\\ \\/ /    /\\ \"-.\\ \\   /\\ \\   /\\__  _\\    /\\  __-.  /\\  __ \\   /\\  ___\\                           " + System.lineSeparator() +
+                "\\ \\  _\"-.  \\ \\ \\-.  \\  \\ \\ \\  \\/_/\\ \\/    \\ \\ \\/\\ \\ \\ \\ \\/\\ \\  \\ \\ \\____                          " + System.lineSeparator() +
+                " \\ \\_\\ \\_\\  \\ \\_\\\\\"\\_\\  \\ \\_\\    \\ \\_\\     \\ \\____-  \\ \\_____\\  \\ \\_____\\                         " + System.lineSeparator() +
+                "  \\/_/\\/_/   \\/_/ \\/_/   \\/_/     \\/_/      \\/____/   \\/_____/   \\/_____/                         " + System.lineSeparator() +
+                "                                                                                                  " + System.lineSeparator() +
+                " ______     ______     __   __     ______     ______     ______     ______   ______     ______    " + System.lineSeparator() +
+                "/\\  ___\\   /\\  ___\\   /\\ \"-.\\ \\   /\\  ___\\   /\\  == \\   /\\  __ \\   /\\__  _\\ /\\  __ \\   /\\  == \\   " + System.lineSeparator() +
+                "\\ \\ \\__ \\  \\ \\  __\\   \\ \\ \\-.  \\  \\ \\  __\\   \\ \\  __<   \\ \\  __ \\  \\/_/\\ \\/ \\ \\ \\/\\ \\  \\ \\  __<   " + System.lineSeparator() +
+                " \\ \\_____\\  \\ \\_____\\  \\ \\_\\\\\"\\_\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\    \\ \\_\\  \\ \\_____\\  \\ \\_\\ \\_\\ " + System.lineSeparator() +
+                "  \\/_____/   \\/_____/   \\/_/ \\/_/   \\/_____/   \\/_/ /_/   \\/_/\\/_/     \\/_/   \\/_____/   \\/_/ /_/ " + System.lineSeparator() +
+                "                                                                                                  " + System.lineSeparator();
+        out += "Knit 1.0.10 - DataWeave Document Generator" + System.lineSeparator();
+        out += "Written By Austin Lehman" + System.lineSeparator();
+        out += "austin@rosevillecode.com" + System.lineSeparator();
+        out += "Copyright 2020 Roseville Code Inc." + System.lineSeparator();
         System.out.println(out);
     }
 }

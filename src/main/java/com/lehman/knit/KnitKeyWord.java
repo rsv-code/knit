@@ -17,6 +17,9 @@
 
 package com.lehman.knit;
 
+/**
+ * Enum that stores annotation key words.
+ */
 public enum KnitKeyWord {
     // Param
     P("p"),

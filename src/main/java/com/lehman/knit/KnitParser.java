@@ -121,8 +121,8 @@ public class KnitParser {
     private String parseCommentString(String str) {
         String ret = "";
 
-        for (String line : str.toString().split("\n")) {
-            ret += line.replaceFirst("^\\s\\*\\s?", "") + "\n";
+        for (String line : str.toString().split(System.lineSeparator())) {
+            ret += line.replaceFirst("^\\s\\*\\s?", "") + System.lineSeparator();
         }
 
         return ret;
@@ -160,7 +160,7 @@ public class KnitParser {
         ArrayList<DwCommentAnnotation> ret = new ArrayList<DwCommentAnnotation>();
         String pstr = "^@(\\w+)\\s(.*?(?=@))";
         Pattern r = Pattern.compile(pstr, Pattern.DOTALL | Pattern.MULTILINE);
-        Matcher m = r.matcher(str + "\n@");
+        Matcher m = r.matcher(str + System.lineSeparator() + "@");
         while (m.find()) {
             DwCommentAnnotation ann = new DwCommentAnnotation();
             ann.setName(m.group(1).toString());
@@ -274,7 +274,7 @@ public class KnitParser {
                 ArrayList<String> cols = new ArrayList<String>();
 
                 for (String col : Util.fromArray(ann.getValue().split("(?<!\\\\\\\\),"))) {
-                    cols.add(col.replaceAll("\n", ""));
+                    cols.add(col.replaceAll(System.lineSeparator(), ""));
                 }
 
                 tbl.setColumns(cols);
@@ -292,7 +292,7 @@ public class KnitParser {
                     ArrayList<String> fields = new ArrayList<String>();
                     for (String str : ann.getValue().split("(?<!\\\\\\\\),")) {
                         // Replace escaped commas.
-                        fields.add(str.replaceAll("\\\\\\\\,", ",").replaceAll("\n", ""));
+                        fields.add(str.replaceAll("\\\\\\\\,", ",").replaceAll(System.lineSeparator(), ""));
                     }
 
                     row.setFields(fields);

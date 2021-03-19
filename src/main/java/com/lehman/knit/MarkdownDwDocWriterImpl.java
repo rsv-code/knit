@@ -33,23 +33,23 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
      */
     @Override
     public String writeDoc(DwFile file) {
-        String ret = "# " + file.name + "\n";
-        ret += "###### " + Util.join("::", file.modulePath) + "\n";
+        String ret = "# " + file.name + System.lineSeparator();
+        ret += "###### " + Util.join("::", file.modulePath) + System.lineSeparator();
         if (!file.getComment().getText().equals("")) {
-            ret += file.getComment().getText() + "\n";
+            ret += file.getComment().getText() + System.lineSeparator();
         }
-        ret += "\n";
+        ret += System.lineSeparator();
 
         String vars = this.writeVariables(file);
         if (!vars.equals("")) {
-            ret += "### Variables\n";
-            ret += vars + "\n";
+            ret += "### Variables" + System.lineSeparator();
+            ret += vars + System.lineSeparator();
         }
 
         String functs = this.writeFunctions(file);
         if (!functs.equals("")) {
-            ret += "### Functions\n";
-            ret += functs + "\n";
+            ret += "### Functions" + System.lineSeparator();
+            ret += functs + System.lineSeparator();
         }
 
         return ret;
@@ -81,7 +81,7 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         for (String modName : moduleNameList) {
             DwFile modFile = this.getFileByModuleName(files, modName);
             if (modFile != null) {
-                ret += this.writeDoc(modFile) + "\n";
+                ret += this.writeDoc(modFile) + System.lineSeparator();
             } else {
                 System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
             }
@@ -90,7 +90,7 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         // Iterate the rest.
         for (DwFile dwf : files) {
             if (!moduleNameList.contains(dwf.getName())) {
-                ret += this.writeDoc(dwf) + "\n";
+                ret += this.writeDoc(dwf) + System.lineSeparator();
             }
         }
 
@@ -119,14 +119,14 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
     @Override
     public String writeHeaderTable(List<DwFile> files, List<String> moduleNameList) {
         String ret = "";
-        ret += "| Module | Description |\n";
-        ret += "|-|-|\n";
+        ret += "| Module | Description |" + System.lineSeparator();
+        ret += "|-|-|" + System.lineSeparator();
 
         // Go through the module list first and add them in order.
         for (String modName : moduleNameList) {
             DwFile modFile = this.getFileByModuleName(files, modName);
             if (modFile != null) {
-                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + Util.stripNewLines(modFile.getComment().getText()) + " |\n";
+                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + Util.stripNewLines(modFile.getComment().getText()) + " |" + System.lineSeparator();
             } else {
                 System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
             }
@@ -135,11 +135,11 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         // Iterate the rest.
         for (DwFile dwf : files) {
             if (!moduleNameList.contains(dwf.getName())) {
-                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + Util.stripNewLines(dwf.getComment().getText()) + " |\n";
+                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + Util.stripNewLines(dwf.getComment().getText()) + " |" + System.lineSeparator();
             }
         }
 
-        ret += "\n";
+        ret += System.lineSeparator();
 
         return ret;
     }
@@ -165,8 +165,8 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         String ret = "";
 
         for(DwVariable var : file.getVariables()) {
-            ret += "__var__ `" + var.getName() + "`\n";
-            ret += "> " + var.getComment().getText().replaceAll("\n", "  \n") + "\n\n";
+            ret += "__var__ `" + var.getName() + "`" + System.lineSeparator();
+            ret += "> " + var.getComment().getText().replaceAll(System.lineSeparator(), "  " + System.lineSeparator()) + System.lineSeparator() + System.lineSeparator();
         }
 
         return ret;
@@ -182,11 +182,11 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         String ret = "";
 
         for(DwFunction fun : file.getFunctions()) {
-            ret += "__fun__ `" + fun.getName() + "` ( " + this.writeFunctArgs(fun) + ")\n\n";
-            ret += this.writeFunctAnnotations(fun) + "\n";
-            ret += "> " + Util.stripNewLines(fun.getComment().getText()) + "\n\n";
+            ret += "__fun__ `" + fun.getName() + "` ( " + this.writeFunctArgs(fun) + ")" + System.lineSeparator() + System.lineSeparator();
+            ret += this.writeFunctAnnotations(fun) + System.lineSeparator();
+            ret += "> " + Util.stripNewLines(fun.getComment().getText()) + System.lineSeparator() + System.lineSeparator();
             if (fun.getTable() != null) {
-                ret += writeAnnotationTable(fun.getTable()) + "\n\n";
+                ret += writeAnnotationTable(fun.getTable()) + System.lineSeparator() + System.lineSeparator();
             }
         }
 
@@ -229,12 +229,12 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
             if (ann.getName().toLowerCase().equals(KnitKeyWord.R) || ann.getName().toLowerCase().equals(KnitKeyWord.RETURN)) {
                 retAnn = ann;
             } else if (ann.getName().toLowerCase().equals(KnitKeyWord.P) || ann.getName().toLowerCase().equals(KnitKeyWord.PARAM)) {
-                ret += "__param__ `" + ann.getKey() + "` " + Util.stripNewLines(ann.getValue()) + "  \n";
+                ret += "__param__ `" + ann.getKey() + "` " + Util.stripNewLines(ann.getValue()) + "  " + System.lineSeparator();
             }
         }
 
         if (retAnn != null) {
-            ret += "__return__ " + Util.stripNewLines(retAnn.getValue()) + "  \n";
+            ret += "__return__ " + Util.stripNewLines(retAnn.getValue()) + "  " + System.lineSeparator();
         }
 
         if (!ret.equals("")) {
@@ -251,15 +251,15 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
      */
     private String writeAnnotationTable(AnnotationTable tbl) {
         String ret = "";
-        ret += "> | " + Util.join(" | ", tbl.getColumns()) + " | \n";
+        ret += "> | " + Util.join(" | ", tbl.getColumns()) + " | " + System.lineSeparator();
         // divider
         ret += "> | ";
         for (int i = 0; i < tbl.getColumns().size(); i++) {
             ret += "-|";
         }
-        ret += "\n";
+        ret += System.lineSeparator();
         for (AnnotationRow row : tbl.getRows()) {
-            ret += "> | " + Util.join(" | ", row.getFields()) + " | \n";
+            ret += "> | " + Util.join(" | ", row.getFields()) + " | " + System.lineSeparator();
         }
         return ret;
     }
