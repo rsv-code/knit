@@ -20,7 +20,7 @@ package com.lehman.knit;
 /**
  * Class models a function argument.
  */
-public class dwArgument {
+public class DwArgument {
     /**
      * The argument name.
      */
@@ -34,20 +34,20 @@ public class dwArgument {
     /**
      * Default constructor.
      */
-    public dwArgument() { }
+    public DwArgument() { }
 
     /**
      * Constructor with name arg.
      * @param Name is a String with the argument name.
      */
-    public dwArgument(String Name) { this.name = Name; }
+    public DwArgument(String Name) { this.name = Name; }
 
     /**
      * Constructor with name and datatype.
      * @param Name is a String with the argument name.
      * @param Datatype is a String with the datatype.
      */
-    public dwArgument(String Name, String Datatype) {
+    public DwArgument(String Name, String Datatype) {
         this.name = Name;
         this.datatype = Datatype;
     }

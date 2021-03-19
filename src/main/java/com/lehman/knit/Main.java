@@ -151,10 +151,10 @@ public class Main extends AbstractMojo {
         //dwFile f = parser.parseFile("dw/test.dw");
 
         Main mn = new Main();
-        ArrayList<dwFile> parsedFiles = new ArrayList<dwFile>();
+        ArrayList<DwFile> parsedFiles = new ArrayList<DwFile>();
         mn.parseDirectory("dw", parsedFiles);
 
-        dwDocWriter writer = new markdownDwDocWriterImpl();
+        DwDocWriter writer = new MarkdownDwDocWriterImpl();
         String doc = writer.writeDoc(parsedFiles);
         System.out.println(doc);
     }
@@ -165,8 +165,8 @@ public class Main extends AbstractMojo {
      * @param parsedFiles is an ArrayList of dwFile objects to store the parsed results.
      * @throws Exception
      */
-    public void parseDirectory(String dirName, ArrayList<dwFile> parsedFiles) throws Exception {
-        knitParser parser = new knitParser();
+    public void parseDirectory(String dirName, ArrayList<DwFile> parsedFiles) throws Exception {
+        KnitParser parser = new KnitParser();
         File dir = new File(dirName);
         if (dir.exists()) {
             if (dir.isDirectory()) {
@@ -220,7 +220,7 @@ public class Main extends AbstractMojo {
      * Writes the dataweave doc file.
      */
     private void writeDwFile() {
-        ArrayList<dwFile> parsedFiles = new ArrayList<dwFile>();
+        ArrayList<DwFile> parsedFiles = new ArrayList<DwFile>();
 
         try {
             // Parse directories
@@ -229,14 +229,14 @@ public class Main extends AbstractMojo {
             }
 
             // Parse files
-            knitParser parser = new knitParser();
+            KnitParser parser = new KnitParser();
             for (String fname : this.files) {
                 File f = new File(this.getWorkingDirectory() + "/" + fname);
                 parsedFiles.add(parser.parseFile(this.getWorkingDirectory(), fname, dwlFileExt));
             }
 
             // Create the doc writer and write the doc.
-            dwDocWriter writer = new markdownDwDocWriterImpl();
+            DwDocWriter writer = new MarkdownDwDocWriterImpl();
             String doc = "";
 
             // If header text is set.
@@ -258,7 +258,7 @@ public class Main extends AbstractMojo {
             }
 
             // Output to file.
-            util.write(
+            Util.write(
                     this.getWorkingDirectory() + "/" +this.outputFile,
                     doc,
                     false

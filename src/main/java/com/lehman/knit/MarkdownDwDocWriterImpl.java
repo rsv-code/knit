@@ -17,7 +17,6 @@
 
 package com.lehman.knit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ import java.util.List;
  * Markdown implementation of the dwDocWriter interface. This class
  * provides support for writing docs in Markdown format.
  */
-public class markdownDwDocWriterImpl implements dwDocWriter {
+public class MarkdownDwDocWriterImpl implements DwDocWriter {
     /**
      * Writes a Markdown formatted document with the provided dwFile object and
      * returns a String with the result.
@@ -33,9 +32,9 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @return A String with the doc contents.
      */
     @Override
-    public String writeDoc(dwFile file) {
+    public String writeDoc(DwFile file) {
         String ret = "# " + file.name + "\n";
-        ret += "###### " + util.join("::", file.modulePath) + "\n";
+        ret += "###### " + Util.join("::", file.modulePath) + "\n";
         if (!file.getComment().getText().equals("")) {
             ret += file.getComment().getText() + "\n";
         }
@@ -63,7 +62,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @return A String with the doc contents.
      */
     @Override
-    public String writeDoc(List<dwFile> files) {
+    public String writeDoc(List<DwFile> files) {
         return this.writeDoc(files, new ArrayList());
     }
 
@@ -75,12 +74,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @return A String with the document text.
      */
     @Override
-    public String writeDoc(List<dwFile> files, List<String> moduleNameList) {
+    public String writeDoc(List<DwFile> files, List<String> moduleNameList) {
         String ret = "";
 
         // Go through the module list first and add them in order.
         for (String modName : moduleNameList) {
-            dwFile modFile = this.getFileByModuleName(files, modName);
+            DwFile modFile = this.getFileByModuleName(files, modName);
             if (modFile != null) {
                 ret += this.writeDoc(modFile) + "\n";
             } else {
@@ -89,7 +88,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         }
 
         // Iterate the rest.
-        for (dwFile dwf : files) {
+        for (DwFile dwf : files) {
             if (!moduleNameList.contains(dwf.getName())) {
                 ret += this.writeDoc(dwf) + "\n";
             }
@@ -105,7 +104,7 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @return A String with the header table text.
      */
     @Override
-    public String writeHeaderTable(List<dwFile> files) {
+    public String writeHeaderTable(List<DwFile> files) {
         return this.writeHeaderTable(files, new ArrayList());
     }
 
@@ -118,25 +117,25 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @return A String with the header table text.
      */
     @Override
-    public String writeHeaderTable(List<dwFile> files, List<String> moduleNameList) {
+    public String writeHeaderTable(List<DwFile> files, List<String> moduleNameList) {
         String ret = "";
         ret += "| Module | Description |\n";
         ret += "|-|-|\n";
 
         // Go through the module list first and add them in order.
         for (String modName : moduleNameList) {
-            dwFile modFile = this.getFileByModuleName(files, modName);
+            DwFile modFile = this.getFileByModuleName(files, modName);
             if (modFile != null) {
-                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + util.stripNewLines(modFile.getComment().getText()) + " |\n";
+                ret += "| [" + modFile.getName() + "](#" + modFile.getName() + ") | " + Util.stripNewLines(modFile.getComment().getText()) + " |\n";
             } else {
                 System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
             }
         }
 
         // Iterate the rest.
-        for (dwFile dwf : files) {
+        for (DwFile dwf : files) {
             if (!moduleNameList.contains(dwf.getName())) {
-                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + util.stripNewLines(dwf.getComment().getText()) + " |\n";
+                ret += "| [" + dwf.getName() + "](#" + dwf.getName() + ") | " + Util.stripNewLines(dwf.getComment().getText()) + " |\n";
             }
         }
 
@@ -145,9 +144,9 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
         return ret;
     }
 
-    private dwFile getFileByModuleName(List<dwFile> files, String name) {
-        dwFile ret = null;
-        for(dwFile dwf : files) {
+    private DwFile getFileByModuleName(List<DwFile> files, String name) {
+        DwFile ret = null;
+        for(DwFile dwf : files) {
             if (dwf.getName().equals(name)) {
                 ret = dwf;
                 break;
@@ -162,10 +161,10 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @param file is the dwObject file to write variables for.
      * @return A String with the variables section.
      */
-    private String writeVariables(dwFile file) {
+    private String writeVariables(DwFile file) {
         String ret = "";
 
-        for(dwVariable var : file.getVariables()) {
+        for(DwVariable var : file.getVariables()) {
             ret += "__var__ `" + var.getName() + "`\n";
             ret += "> " + var.getComment().getText().replaceAll("\n", "  \n") + "\n\n";
         }
@@ -179,13 +178,13 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @param file is the dwObject file to write functions for.
      * @return A String with the functions section.
      */
-    private String writeFunctions(dwFile file) {
+    private String writeFunctions(DwFile file) {
         String ret = "";
 
-        for(dwFunction fun : file.getFunctions()) {
+        for(DwFunction fun : file.getFunctions()) {
             ret += "__fun__ `" + fun.getName() + "` ( " + this.writeFunctArgs(fun) + ")\n\n";
             ret += this.writeFunctAnnotations(fun) + "\n";
-            ret += "> " + util.stripNewLines(fun.getComment().getText()) + "\n\n";
+            ret += "> " + Util.stripNewLines(fun.getComment().getText()) + "\n\n";
             if (fun.getTable() != null) {
                 ret += writeAnnotationTable(fun.getTable()) + "\n\n";
             }
@@ -199,12 +198,12 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @param fun is a dwFunction object to write the args for.
      * @return A String with the function args.
      */
-    private String writeFunctArgs(dwFunction fun) {
+    private String writeFunctArgs(DwFunction fun) {
         String ret = "";
 
         for (int i = 0; i < fun.getArguments().size(); i++) {
             if (i > 0) ret += ", ";
-            dwArgument arg = fun.getArguments().get(i);
+            DwArgument arg = fun.getArguments().get(i);
             if (arg.getDatatype().equals("")) {
                 if (!arg.getName().equals("")) {
                     ret += "__" + arg.getName() + "__";
@@ -222,20 +221,20 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @param fun is a dwFunction object to write annotations for.
      * @return A String with the annotations section.
      */
-    private String writeFunctAnnotations(dwFunction fun) {
+    private String writeFunctAnnotations(DwFunction fun) {
         String ret = "";
 
-        dwCommentAnnotation retAnn = null;
-        for (dwCommentAnnotation ann : fun.getComment().getAnnotations()) {
+        DwCommentAnnotation retAnn = null;
+        for (DwCommentAnnotation ann : fun.getComment().getAnnotations()) {
             if (ann.getName().toLowerCase().equals("r")) {
                 retAnn = ann;
             } else if (ann.getName().toLowerCase().equals("p")) {
-                ret += "__param__ `" + ann.getKey() + "` " + util.stripNewLines(ann.getValue()) + "  \n";
+                ret += "__param__ `" + ann.getKey() + "` " + Util.stripNewLines(ann.getValue()) + "  \n";
             }
         }
 
         if (retAnn != null) {
-            ret += "__return__ " + util.stripNewLines(retAnn.getValue()) + "  \n";
+            ret += "__return__ " + Util.stripNewLines(retAnn.getValue()) + "  \n";
         }
 
         if (!ret.equals("")) {
@@ -250,17 +249,17 @@ public class markdownDwDocWriterImpl implements dwDocWriter {
      * @param tbl is an annotationTable object to write.
      * @return A String with the annotation table.
      */
-    private String writeAnnotationTable(annotationTable tbl) {
+    private String writeAnnotationTable(AnnotationTable tbl) {
         String ret = "";
-        ret += "> | " + util.join(" | ", tbl.getColumns()) + " | \n";
+        ret += "> | " + Util.join(" | ", tbl.getColumns()) + " | \n";
         // divider
         ret += "> | ";
         for (int i = 0; i < tbl.getColumns().size(); i++) {
             ret += "-|";
         }
         ret += "\n";
-        for (annotationRow row : tbl.getRows()) {
-            ret += "> | " + util.join(" | ", row.getFields()) + " | \n";
+        for (AnnotationRow row : tbl.getRows()) {
+            ret += "> | " + Util.join(" | ", row.getFields()) + " | \n";
         }
         return ret;
     }
