@@ -226,9 +226,9 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
 
         DwCommentAnnotation retAnn = null;
         for (DwCommentAnnotation ann : fun.getComment().getAnnotations()) {
-            if (ann.getName().toLowerCase().equals("r")) {
+            if (ann.getName().toLowerCase().equals(KnitKeyWord.R) || ann.getName().toLowerCase().equals(KnitKeyWord.RETURN)) {
                 retAnn = ann;
-            } else if (ann.getName().toLowerCase().equals("p")) {
+            } else if (ann.getName().toLowerCase().equals(KnitKeyWord.P) || ann.getName().toLowerCase().equals(KnitKeyWord.PARAM)) {
                 ret += "__param__ `" + ann.getKey() + "` " + Util.stripNewLines(ann.getValue()) + "  \n";
             }
         }
