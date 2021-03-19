@@ -27,7 +27,7 @@ Then you add the plugin to your pom like this.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <executions>
         <execution>
             <goals>
@@ -57,7 +57,7 @@ so adding this with the latest version to the pom is all that's needed.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <executions>
         <execution>
             <goals>
@@ -233,7 +233,7 @@ Done and done, that's all you need to use in your project. Just add it to
 the pom.xml and you're golden.
 
 # License
-Copyright 2020 Roseville Code Inc. (austin@rosevillecode.com)
+Copyright 2021 Roseville Code Inc. (austin@rosevillecode.com)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
