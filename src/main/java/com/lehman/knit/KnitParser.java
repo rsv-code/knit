@@ -64,6 +64,7 @@ public class KnitParser {
             String commentStr = m.group(2).toString();
             ret.setCommentString(this.parseCommentString(commentStr).trim());
             ret.setComment(this.parseComment(ret.getCommentString()));
+            ret.setTable(this.parseAnnotationTable(ret.getComment()));
         }
     }
 
@@ -252,6 +253,7 @@ public class KnitParser {
             var.setCommentString(this.parseCommentString(m.group(1).toString()).trim());
             var.setName(m.group(2).toString());
             var.setComment(this.parseComment(var.getCommentString()));
+            var.setTable(this.parseAnnotationTable(var.getComment()));
         }
 
         return var;

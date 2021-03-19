@@ -37,6 +37,9 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         ret += "###### " + Util.join("::", file.modulePath) + System.lineSeparator();
         if (!file.getComment().getText().equals("")) {
             ret += file.getComment().getText() + System.lineSeparator();
+            if (file.getTable() != null) {
+                ret += writeAnnotationTable(file.getTable()) + System.lineSeparator() + System.lineSeparator();
+            }
         }
         ret += System.lineSeparator();
 
@@ -167,6 +170,9 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
         for(DwVariable var : file.getVariables()) {
             ret += "__var__ `" + var.getName() + "`" + System.lineSeparator();
             ret += "> " + var.getComment().getText().replaceAll(System.lineSeparator(), "  " + System.lineSeparator()) + System.lineSeparator() + System.lineSeparator();
+            if (var.getTable() != null) {
+                ret += writeAnnotationTable(var.getTable()) + System.lineSeparator() + System.lineSeparator();
+            }
         }
 
         return ret;

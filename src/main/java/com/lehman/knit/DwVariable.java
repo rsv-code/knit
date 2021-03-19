@@ -20,7 +20,7 @@ package com.lehman.knit;
 /**
  * Class models a dataweave variable.
  */
-public class DwVariable {
+public class DwVariable extends AnnotationTableImpl {
     private String commentString = "";
     private DwComment comment = new DwComment();
     private String name = "";

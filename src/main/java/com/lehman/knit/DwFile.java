@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * Class models a dataweave file.
  */
-public class DwFile {
+public class DwFile extends AnnotationTableImpl {
     /**
      * The DW file name. (myModule)
      */

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Class models a dataweave function.
  */
-public class DwFunction {
+public class DwFunction extends AnnotationTableImpl {
     /**
      * The comment string.
      */
@@ -42,11 +42,6 @@ public class DwFunction {
      * The argument list.
      */
     private ArrayList<DwArgument> arguments = new ArrayList<DwArgument>();
-
-    /**
-     * Annotation table if set.
-     */
-    private AnnotationTable table = null;
 
     /**
      * Gets the comment string of the function.
@@ -110,21 +105,5 @@ public class DwFunction {
      */
     public void setArguments(ArrayList<DwArgument> arguments) {
         this.arguments = arguments;
-    }
-
-    /**
-     * Gets the annotation table.
-     * @return An annotationTable object if set or null if not.
-     */
-    public AnnotationTable getTable() {
-        return table;
-    }
-
-    /**
-     * Sets the annotation table.
-     * @param table is an annotationTable object to set.
-     */
-    public void setTable(AnnotationTable table) {
-        this.table = table;
     }
 }
