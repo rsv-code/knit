@@ -166,7 +166,7 @@ public class KnitParser {
             DwCommentAnnotation ann = new DwCommentAnnotation();
             ann.setName(m.group(1).toString());
             String kvStr = m.group(2).toString();
-            if (ann.getName().equals(KnitKeyWord.P) || ann.getName().equals(KnitKeyWord.PARAM)) {
+            if (ann.getName().equals(KnitKeyWord.P.getVal()) || ann.getName().equals(KnitKeyWord.PARAM.getVal())) {
                 this.parseAnnotationValue(kvStr, ann);
             } else {
                 ann.setValue(kvStr);
@@ -270,7 +270,7 @@ public class KnitParser {
 
         // Look for the table definition
         for (DwCommentAnnotation ann : comment.getAnnotations()) {
-            if (ann.getName().toLowerCase().equals(KnitKeyWord.TBL) || ann.getName().toLowerCase().equals(KnitKeyWord.TABLE)) {
+            if (ann.getName().toLowerCase().equals(KnitKeyWord.TBL.getVal()) || ann.getName().toLowerCase().equals(KnitKeyWord.TABLE.getVal())) {
                 tbl = new AnnotationTable();
 
                 ArrayList<String> cols = new ArrayList<String>();
@@ -288,7 +288,7 @@ public class KnitParser {
         if (tbl != null) {
             ArrayList<AnnotationRow> rows = new ArrayList<AnnotationRow>();
             for (DwCommentAnnotation ann : comment.getAnnotations()) {
-                if (ann.getName().toLowerCase().equals(KnitKeyWord.ROW)) {
+                if (ann.getName().toLowerCase().equals(KnitKeyWord.ROW.getVal())) {
                     AnnotationRow row = new AnnotationRow();
 
                     ArrayList<String> fields = new ArrayList<String>();

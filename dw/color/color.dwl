@@ -1,5 +1,12 @@
 /**
  * This module supports color realted functions.
+ *
+ * @tbl Product Object, Database field, Description
+ * @row productId, product.PRODUCT_ID,  The id of the product\\, a new ID.
+ * @row productType,product.product_type, to indicate master or project or variant
+ * @row masterProductId, product.master_product_id, The id of the associated master product
+ * @row productName, product.product_name, The localized name of the product
+ * @row brand, product.BRAND, The brand of the product.
  */
 
 %dw 2.0
