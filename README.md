@@ -1,15 +1,20 @@
 ![Knit Logo](knit.png)
 
 # Knit - Dataweave Document Generator
+**Written by Austin Lehman**
 
-![Knit Intro](knit-intro.png)
-
-Written by Austin Lehman
+### What is Knit?
 
 Knit is a Maven plugin that generates documentation from source code 
 comments in DataWeave files. 
 
-Here's how it works. You write comments like this in your dwl files.
+![Knit Intro](knit-intro.png)
+
+
+
+### How it works?
+
+You write comments like this in your dwl files.
 
 ```
 /**
@@ -43,7 +48,7 @@ target directory. It's that simple.
 
 # Dependencies
 Knit requires JDK 8 or later. It may work on previous versions but you will 
-need to update the pom.xml in that case. It also requires maven of course.
+need to update the pom.xml in that case. It also requires maven.
 
 
 # Usage
@@ -52,6 +57,8 @@ Since this is a Maven plugin all you have to do is reference it in the
 pom.xml of the project you want to use it in. [The plugin exists in Maven 
 Central Repository](https://search.maven.org/artifact/io.github.rsv-code/knit-maven-plugin) 
 so adding this with the latest version to the pom is all that's needed.
+
+Here's a complicated example with many of the available options.
 
 ```
 <plugin>
@@ -122,31 +129,20 @@ This app is for testing the knit maven plugin.
 The configuration section is optional, if not specified it will use 
 the default values which should work for most cases.
 
-- **generate** - A flag to run or not to run the Knit doc generator. Set 
-  to false if you want it to skip generation.
-- **singleOutputFile** - A flag to specify if it should generate a single 
-  output file or a file for each module. Currently only single output file 
-  is supported.
-- **directories** - A list of directories to look for .dwl files. If not 
-  specified it will look in rc/main/resources/dw. If specified it will look 
-  at just those directories you set.
-- **files** - A list of files parse.
-- **outputFile** - A string with the output file to write to. By deafult this 
-  writes to target/knit-doc.md.
-- **outputHeaderText** - Text to be set at the very begining of the generated 
-  doc. This is optional and exists to allow some custom introduction content 
-  to be provided.
-- **outputFooterText** - Text to be set at the very end of the generated 
-  doc. This is optional and exists to allow some custom footer content 
-  to be provided.
-- **writeHeaderTable** - A flag to specify if a header table is to be generated. 
-  If set to true a table with each module name and description will be built 
-  below the outputHeaderText and before the regular documentation. Each module 
-  will link to it's place in the document.
-- **moduleList** - A list of strings with the module names. This list 
-  allows you to specify the order that modules will be written.
-- **dwlFileExt** - A String with the file extension for DataWeave files. The default 
-is dwl. This needs to be set if your DataWeave files have a different file extension.
+### Options
+
+| Option | Description |
+| ----------- | ----------- |
+| **generate** | A flag to run or not to run the Knit doc generator. Set to false if you want it to skip generation. |
+| **singleOutputFile** | A flag to specify if it should generate a single output file or a file for each module. Currently only single output file is supported. |
+| **directories** | A list of directories to look for .dwl files. If not specified it will look in rc/main/resources/dw. If specified it will look at just those directories you set. | 
+| **files** | A list of files parse. | 
+| **outputFile** | A string with the output file to write to. By deafult this writes to target/knit-doc.md. | 
+| **outputHeaderText** | Text to be set at the very begining of the generated doc. This is optional and exists to allow some custom introduction content to be provided. | 
+| **outputFooterText** | Text to be set at the very end of the generated doc. This is optional and exists to allow some custom footer content to be provided. | 
+| **writeHeaderTable** | A flag to specify if a header table is to be generated. If set to true a table with each module name and description will be built below the outputHeaderText and before the regular documentation. Each module will link to it's place in the document. | 
+| **moduleList** | A list of strings with the module names. This list allows you to specify the order that modules will be written. | 
+| **dwlFileExt** | A String with the file extension for DataWeave files. The default is dwl. This needs to be set if your DataWeave files have a different file extension. | 
 
 ## Generating The Doc
 Knit is executed from the maven package lifecycle phase. In studio certain conditions 
@@ -154,7 +150,7 @@ will cause it to run maven package. To trigger the build, do the following.
 From the command line in your project dictory (where the pom is) run something like 
 this to generate the doc. 
 ```
-mvn clean package
+mvn clean package -DskipTests
 ```
 
 # Comments
@@ -162,6 +158,7 @@ mvn clean package
 There are 3 comment blocks that can be used to generate docs and they are 
 module, variable, and function.
 
+### Module 
 Module level documentation is set at the very begining of the module before 
 the %dw declaration and starting with /** like this.
 ```
@@ -173,6 +170,7 @@ the %dw declaration and starting with /** like this.
 ...
 ```
 
+### Variable
 Variable documentation is implemented by writing a comment block above the 
 variable declaration.
 ```
@@ -181,6 +179,8 @@ variable declaration.
  */
 var first = "Austin"
 ```
+
+### Function
 
 Finally, documentation of a function is accomplished by writing a comment block 
 above the function. In function comments you can set annotations to define 
@@ -197,7 +197,7 @@ fun mapColor(data) = {
 
 As of version 1.0.8 you can also specify a mapping table. Here's the general syntax. 
 Columns and fields are separated by commas and you can escape a comma with two back 
-slashes like this '\\,'.
+slashes like this '\\,'. Tables can be added to any of the comment blocks.
 
 ```
 /**
