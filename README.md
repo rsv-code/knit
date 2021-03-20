@@ -195,6 +195,8 @@ fun mapColor(data) = {
 ...
 ```
 
+### Tables
+
 As of version 1.0.8 you can also specify a mapping table. Here's the general syntax. 
 Columns and fields are separated by commas and you can escape a comma with two back 
 slashes like this '\\,'. Tables can be added to any of the comment blocks.
