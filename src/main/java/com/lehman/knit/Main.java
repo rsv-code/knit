@@ -80,6 +80,13 @@ public class Main extends AbstractMojo {
     String outputFile = "target/knit-doc.md";
 
     /**
+     * Maven config value outputFormat.
+     * Thie output format to generate.
+     */
+    @Parameter(property = "outputFormat")
+    String outputFormat = OutputFormat.MARKDOWN.getVal();
+
+    /**
      * Maven config value outputHeaderText.
      * If set this will be output in the document at
      * the top of the document as is. Set as a CDATA element.
@@ -155,8 +162,12 @@ public class Main extends AbstractMojo {
         mn.parseDirectory("dw", parsedFiles);
 
         DwDocWriter writer = new MarkdownDwDocWriterImpl();
-        String doc = writer.writeDoc(parsedFiles);
+        String doc = new String(writer.writeDoc(parsedFiles));
         System.out.println(doc);
+
+        //DwDocWriter writer = new PdfDwDocWriterImpl();
+        //byte[] data = writer.writeDoc(parsedFiles);
+        //Util.write("test.pdf", data, false);
     }
 
     /**
@@ -202,7 +213,15 @@ public class Main extends AbstractMojo {
                 }
 
                 if (this.files.length > 0 || this.directories.length > 0) {
-                    this.writeDwFile();
+                    if (this.outputFormat.equals(OutputFormat.MARKDOWN.getVal())) {
+                        this.writeDocFile(OutputFormat.MARKDOWN);
+                    } else if (this.outputFormat.equals(OutputFormat.PDF.getVal())) {
+                        this.writeDocFile(OutputFormat.PDF);
+                    } else {
+                        System.err.println("Error: knit-maven-plugin output format '" + this.outputFormat + "' not valid. Options are 'markdown', 'pdf', 'html'.");
+                        System.exit(1);
+                    }
+
                 } else {
                     System.err.println("Error: knit-maven-plugin <srcFiles> or <srcDirectories> aren't specified.");
                     System.exit(1);
@@ -217,9 +236,10 @@ public class Main extends AbstractMojo {
     }
 
     /**
-     * Writes the dataweave doc file.
+     * Writes the doc file with the provided format.
+     * @param format is a valid OutputFormat format.
      */
-    private void writeDwFile() {
+    private void writeDocFile(OutputFormat format) {
         ArrayList<DwFile> parsedFiles = new ArrayList<DwFile>();
 
         try {
@@ -236,26 +256,17 @@ public class Main extends AbstractMojo {
             }
 
             // Create the doc writer and write the doc.
-            DwDocWriter writer = new MarkdownDwDocWriterImpl();
-            String doc = "";
-
-            // If header text is set.
-            if (!this.outputHeaderText.equals("")) {
-                doc += this.outputHeaderText + System.lineSeparator() + System.lineSeparator();
+            DwDocWriter writer = null;
+            if (format == OutputFormat.MARKDOWN) {
+                writer = new MarkdownDwDocWriterImpl();
+            } else if (format == OutputFormat.PDF) {
+                writer = new PdfDwDocWriterImpl();
             }
-
-            // If write header table is set.
-            if (this.writeHeaderTable) {
-                doc += writer.writeHeaderTable(parsedFiles, Arrays.asList(this.moduleList));
-            }
+            writer.setOptions(this.writeHeaderTable, this.outputHeaderText, this.outputFooterText);
+            byte[] doc = new byte[0];
 
             // Write the doc.
-            doc += writer.writeDoc(parsedFiles, Arrays.asList(this.moduleList));
-
-            // If footer text is set.
-            if (!this.outputFooterText.equals("")) {
-                doc += this.outputFooterText + System.lineSeparator() + System.lineSeparator();
-            }
+            doc = writer.writeDoc(parsedFiles, Arrays.asList(this.moduleList));
 
             // Output to file.
             Util.write(

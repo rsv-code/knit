@@ -24,43 +24,30 @@ import java.util.List;
  */
 public interface DwDocWriter {
     /**
-     * Writes a doc with the provided dwFile object.
-     * @param file is a dwFile object to write.
-     * @return A String with the document text.
+     * Sets the provided options for the doc writer.
+     * @param writeHeaderTable is a boolean with true to write header table and false for not.
+     * @param outputHeaderText is a String with the header text.
+     * @param outputFooterText is a String with the footer text.
      */
-    public String writeDoc(DwFile file);
+    public void setOptions(
+        boolean writeHeaderTable,
+        String outputHeaderText,
+        String outputFooterText
+    );
 
     /**
      * Writes a doc with the provided dwFile list.
      * @param files is a List of dwFile objects to write.
-     * @return A String with the document text.
+     * @return A byte array with the document.
      */
-    public String writeDoc(List<DwFile> files);
+    public byte[] writeDoc(List<DwFile> files);
 
     /**
      * Writes a doc with the provided dwFile list and moduleNameList.
      * @param files is a List of dwFile objects to write.
      * @param moduleNameList is an optional list of module names that can
      * be provided to specify the order of modules.
-     * @return A String with the document text.
+     * @return A byte array with the document.
      */
-    public String writeDoc(List<DwFile> files, List<String> moduleNameList);
-
-    /**
-     * Writes a header table with the provided dwFile list. This
-     * table will link to each module further down in the document.
-     * @param files is a List of dwFile objects to write.
-     * @return A String with the header table text.
-     */
-    public String writeHeaderTable(List<DwFile> files);
-
-    /**
-     * Writes a header table with the provided dwFile list. This
-     * table will link to each module further down in the document.
-     * @param files is a List of dwFile objects to write.
-     * @param moduleNameList is an optional list of module names that can
-     * be provided to specify the order of modules.
-     * @return A String with the header table text.
-     */
-    public String writeHeaderTable(List<DwFile> files, List<String> moduleNameList);
+    public byte[] writeDoc(List<DwFile> files, List<String> moduleNameList);
 }

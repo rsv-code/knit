@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <packaging>maven-plugin</packaging>
 
     <name>knit-maven-plugin</name>
@@ -72,6 +72,25 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.11</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itext7-core -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.1.14</version>
+            <type>pom</type>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/kernel -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>kernel</artifactId>
+            <version>7.1.14</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/layout -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.1.14</version>
         </dependency>
     </dependencies>
 

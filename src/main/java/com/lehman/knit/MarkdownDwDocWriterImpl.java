@@ -17,7 +17,9 @@
 
 package com.lehman.knit;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,14 +27,87 @@ import java.util.List;
  * provides support for writing docs in Markdown format.
  */
 public class MarkdownDwDocWriterImpl implements DwDocWriter {
+    private boolean writeHeaderTable = false;
+    private String outputHeaderText = "";
+    private String outputFooterText = "";
+
+    /**
+     * Sets the provided options for the doc writer.
+     * @param WriteHeaderTable
+     * @param OutputHeaderText
+     * @param OutputFooterText
+     */
+    @Override
+    public void setOptions(boolean WriteHeaderTable, String OutputHeaderText, String OutputFooterText) {
+        this.writeHeaderTable = WriteHeaderTable;
+        this.outputHeaderText = OutputHeaderText;
+        this.outputFooterText = OutputFooterText;
+    }
+
+    /**
+     * Writes a Markdown formatted document with the provided list of dwFile objects and
+     * returns a String with the result.
+     * @param files is a List of dwFile objects to write.
+     * @return A String with the doc contents.
+     */
+    @Override
+    public byte[] writeDoc(List<DwFile> files) {
+        return this.writeDoc(files, new ArrayList());
+    }
+
+    /**
+     * Writes a doc with the provided dwFile list and moduleNameList.
+     * @param files is a List of dwFile objects to write.
+     * @param moduleNameList is an optional list of module names that can
+     * be provided to specify the order of modules.
+     * @return A String with the document text.
+     */
+    @Override
+    public byte[] writeDoc(List<DwFile> files, List<String> moduleNameList) {
+        String ret = "";
+
+        // If header text is set.
+        if (!this.outputHeaderText.equals("")) {
+            ret += this.outputHeaderText + System.lineSeparator() + System.lineSeparator();
+        }
+
+        // If write header table is set.
+        if (this.writeHeaderTable) {
+            ret += this.writeHeaderTable(files, moduleNameList);
+        }
+
+        // Go through the module list first and add them in order.
+        for (String modName : moduleNameList) {
+            DwFile modFile = this.getFileByModuleName(files, modName);
+            if (modFile != null) {
+                ret += this.writeDoc(modFile) + System.lineSeparator();
+            } else {
+                System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
+            }
+        }
+
+        // Iterate the rest.
+        for (DwFile dwf : files) {
+            if (!moduleNameList.contains(dwf.getName())) {
+                ret += this.writeDoc(dwf) + System.lineSeparator();
+            }
+        }
+
+        // If footer text is set.
+        if (!this.outputFooterText.equals("")) {
+            ret += this.outputFooterText + System.lineSeparator() + System.lineSeparator();
+        }
+
+        return ret.getBytes(StandardCharsets.UTF_8);
+    }
+
     /**
      * Writes a Markdown formatted document with the provided dwFile object and
      * returns a String with the result.
      * @param file is a dwFile object to write.
      * @return A String with the doc contents.
      */
-    @Override
-    public String writeDoc(DwFile file) {
+    private String writeDoc(DwFile file) {
         String ret = "# " + file.name + System.lineSeparator();
         ret += "###### " + Util.join("::", file.modulePath) + System.lineSeparator();
         if (!file.getComment().getText().equals("")) {
@@ -59,55 +134,12 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
     }
 
     /**
-     * Writes a Markdown formatted document with the provided list of dwFile objects and
-     * returns a String with the result.
-     * @param files is a List of dwFile objects to write.
-     * @return A String with the doc contents.
-     */
-    @Override
-    public String writeDoc(List<DwFile> files) {
-        return this.writeDoc(files, new ArrayList());
-    }
-
-    /**
-     * Writes a doc with the provided dwFile list and moduleNameList.
-     * @param files is a List of dwFile objects to write.
-     * @param moduleNameList is an optional list of module names that can
-     * be provided to specify the order of modules.
-     * @return A String with the document text.
-     */
-    @Override
-    public String writeDoc(List<DwFile> files, List<String> moduleNameList) {
-        String ret = "";
-
-        // Go through the module list first and add them in order.
-        for (String modName : moduleNameList) {
-            DwFile modFile = this.getFileByModuleName(files, modName);
-            if (modFile != null) {
-                ret += this.writeDoc(modFile) + System.lineSeparator();
-            } else {
-                System.err.println("Warning: Module name '" + modName + "' was supplied in moduleNameList but was not found parsed file list.");
-            }
-        }
-
-        // Iterate the rest.
-        for (DwFile dwf : files) {
-            if (!moduleNameList.contains(dwf.getName())) {
-                ret += this.writeDoc(dwf) + System.lineSeparator();
-            }
-        }
-
-        return ret;
-    }
-
-    /**
      * Writes a header table with the provided dwFile list. This
      * table will link to each module further down in the document.
      * @param files is a List of dwFile objects to write.
      * @return A String with the header table text.
      */
-    @Override
-    public String writeHeaderTable(List<DwFile> files) {
+    private String writeHeaderTable(List<DwFile> files) {
         return this.writeHeaderTable(files, new ArrayList());
     }
 
@@ -119,8 +151,7 @@ public class MarkdownDwDocWriterImpl implements DwDocWriter {
      * be provided to specify the order of modules in the table.
      * @return A String with the header table text.
      */
-    @Override
-    public String writeHeaderTable(List<DwFile> files, List<String> moduleNameList) {
+    private String writeHeaderTable(List<DwFile> files, List<String> moduleNameList) {
         String ret = "";
         ret += "| Module | Description |" + System.lineSeparator();
         ret += "|-|-|" + System.lineSeparator();

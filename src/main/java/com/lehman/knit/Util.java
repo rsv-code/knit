@@ -17,10 +17,7 @@
 
 package com.lehman.knit;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,20 +90,20 @@ public class Util {
 	 * Writes the provided String to file. If append is set to true, it will append
 	 * the text to file, otherwise it will replace it if the file already exists.
 	 * @param FileName is a String with the file name to save.
-	 * @param Data is a String with the text data to write.
+	 * @param Data is a byte array with the data to write.
 	 * @param Append is a boolean with true for append and false for not.
 	 * @throws IOException on IO exception.
 	 */
-	public static void write(String FileName, String Data, boolean Append) throws IOException {
-		BufferedWriter bw = null;
+	public static void write(String FileName, byte[] Data, boolean Append) throws IOException {
+		BufferedOutputStream bos = null;
 		try {
-			bw = new BufferedWriter(new FileWriter(FileName, Append));
-			bw.write(Data);
+            bos = new BufferedOutputStream(new FileOutputStream(FileName, Append));
+            bos.write(Data);
 		} catch (IOException e) {
 			throw e;
 		} finally {
-			if(bw != null) {
-		        try { bw.close(); }
+			if(bos != null) {
+		        try { bos.close(); }
 		        catch (IOException e) { throw e; }
 			}
 	    }
