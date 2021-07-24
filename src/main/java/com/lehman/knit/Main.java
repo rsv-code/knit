@@ -26,9 +26,12 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import java.io.File;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * The main entry point class implements the normal main
@@ -102,6 +105,14 @@ public class Main extends AbstractMojo {
     @Parameter(property = "outputFooterText")
     String outputFooterText = "";
 
+    /**
+     * Maven config value outputHtmlCssFile.
+     * If set this will set the CSS file to
+     * use in the output HTML. This only applies
+     * when outputFormat = HTML.
+     */
+    @Parameter(property = "outputHtmlCssFile")
+    String outputHtmlCssFile = "";
 
     /**
      * Maven config value writeHeaderTable.
@@ -168,6 +179,10 @@ public class Main extends AbstractMojo {
         //DwDocWriter writer = new PdfDwDocWriterImpl();
         //byte[] data = writer.writeDoc(parsedFiles);
         //Util.write("test.pdf", data, false);
+
+        //DwDocWriter writer = new HTMLDwDocWriterImpl();
+        //String doc = new String(writer.writeDoc(parsedFiles));
+        //System.out.println(doc);
     }
 
     /**
@@ -217,6 +232,8 @@ public class Main extends AbstractMojo {
                         this.writeDocFile(OutputFormat.MARKDOWN);
                     } else if (this.outputFormat.equals(OutputFormat.PDF.getVal())) {
                         this.writeDocFile(OutputFormat.PDF);
+                    } else if (this.outputFormat.equals(OutputFormat.HTML.getVal())) {
+                        this.writeDocFile(OutputFormat.HTML);
                     } else {
                         System.err.println("Error: knit-maven-plugin output format '" + this.outputFormat + "' not valid. Options are 'markdown', 'pdf', 'html'.");
                         System.exit(1);
@@ -261,6 +278,19 @@ public class Main extends AbstractMojo {
                 writer = new MarkdownDwDocWriterImpl();
             } else if (format == OutputFormat.PDF) {
                 writer = new PdfDwDocWriterImpl();
+            } else if (format == OutputFormat.HTML) {
+                writer = new HTMLDwDocWriterImpl();
+                // Style
+                if (!this.outputHtmlCssFile.trim().equals("")) {
+                    ((HTMLDwDocWriterImpl)writer).setCssFileName(this.outputHtmlCssFile.trim());
+                } else {
+                    String parentDir = (new File(this.getWorkingDirectory() + "/" +this.outputFile)).getParent();
+                    Util.write(
+                            parentDir + "/" + ((HTMLDwDocWriterImpl)writer).getCssFileName(),
+                            this.getDefaultCssFile().getBytes(StandardCharsets.UTF_8),
+                            false
+                    );
+                }
             }
             writer.setOptions(this.writeHeaderTable, this.outputHeaderText, this.outputFooterText);
             byte[] doc = new byte[0];
@@ -294,6 +324,26 @@ public class Main extends AbstractMojo {
         String ret = dir.getParent();
         if (SystemUtils.IS_OS_WINDOWS){
             ret = ret.replace("\\", "/");
+        }
+        return ret;
+    }
+
+    /**
+     * Gets the default CSS file text.
+     * @return A String with the default CSS.
+     */
+    private String getDefaultCssFile() {
+        String ret = "";
+        try {
+            InputStream is = getClass().getResourceAsStream("/defaultCssFile.css");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+
+            while((line = reader.readLine()) != null) {
+                ret += line + System.lineSeparator();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return ret;
     }
