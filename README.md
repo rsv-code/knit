@@ -137,12 +137,14 @@ the default values which should work for most cases.
 | **singleOutputFile** | A flag to specify if it should generate a single output file or a file for each module. Currently only single output file is supported. |
 | **directories** | A list of directories to look for .dwl files. If not specified it will look in rc/main/resources/dw. If specified it will look at just those directories you set. | 
 | **files** | A list of files parse. | 
+| **outputFormat** | The output format for the document. Options are 'markdown', 'pdf', and 'html'. The default is 'markdown'. |
 | **outputFile** | A string with the output file to write to. By deafult this writes to target/knit-doc.md. | 
 | **outputHeaderText** | Text to be set at the very begining of the generated doc. This is optional and exists to allow some custom introduction content to be provided. | 
 | **outputFooterText** | Text to be set at the very end of the generated doc. This is optional and exists to allow some custom footer content to be provided. | 
 | **writeHeaderTable** | A flag to specify if a header table is to be generated. If set to true a table with each module name and description will be built below the outputHeaderText and before the regular documentation. Each module will link to it's place in the document. | 
 | **moduleList** | A list of strings with the module names. This list allows you to specify the order that modules will be written. | 
 | **dwlFileExt** | A String with the file extension for DataWeave files. The default is dwl. This needs to be set if your DataWeave files have a different file extension. | 
+| **outputHtmlCssFile** | If outputFormat is 'html' then this can be set to a local or remote .css file to set for the result HTMl document. By default a generic .css file is saved with the name knit-style.css if not specified. |
 
 ## Generating The Doc
 Knit is executed from the maven package lifecycle phase. In studio certain conditions 
