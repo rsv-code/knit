@@ -32,7 +32,7 @@ Then you add the plugin to your pom like this.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <executions>
         <execution>
             <goals>
@@ -64,7 +64,7 @@ Here's a complicated example with many of the available options.
 <plugin>
     <groupId>io.github.rsv-code</groupId>
     <artifactId>knit-maven-plugin</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <executions>
         <execution>
             <goals>

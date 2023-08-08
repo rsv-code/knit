@@ -57,7 +57,7 @@ public class KnitParser {
      */
     private void parseModuleComment(String text, DwFile ret) {
         // Get the module section.
-        String funPatternStr = "(\\/\\*\\*(.+?)\\*\\/\\s*%dw)";
+        String funPatternStr = "(\\/\\*\\*((.(?!\\/\\*\\*))+?)\\*\\/\\s*%dw)";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(text);
         if (m.find()) {
@@ -78,13 +78,14 @@ public class KnitParser {
         ArrayList<DwFunction> ret = new ArrayList<DwFunction>();
 
         // Get functions sections.
-        String funPatternStr = "(\\/\\*\\*[^\\/]+?\\*\\/\\s*fun\\s*\\w*\\s*\\(.*?\\))";
+        String funPatternStr = "(\\/\\*\\*(.(?!\\/\\*\\*))+?\\*\\/\\s*fun\\s*\\w*\\s*\\(.*?\\))";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(text);
         while (m.find()) {
-            for (int i = 0; i < m.groupCount(); i++) {
+            for (int i = 1; i < m.groupCount(); i++) {
                 ret.add(this.parseFunctionString(m.group(i).toString()));
             }
+
         }
 
         return ret;
@@ -226,11 +227,11 @@ public class KnitParser {
         ArrayList<DwVariable> variables = new ArrayList<DwVariable>();
 
         // Get functions sections.
-        String funPatternStr = "(\\/\\*\\*[^\\/]+?\\*\\/\\s*var\\s*\\w*)";
+        String funPatternStr = "(\\/\\*\\*(.(?!\\/\\*\\*))+?\\*\\/\\s*var\\s*\\w*)";
         Pattern r = Pattern.compile(funPatternStr, Pattern.DOTALL | Pattern.MULTILINE);
         Matcher m = r.matcher(text);
         while (m.find()) {
-            for (int i = 0; i < m.groupCount(); i++) {
+            for (int i = 1; i < m.groupCount(); i++) {
                 variables.add(this.parseVariableString(m.group(i).toString()));
             }
         }
